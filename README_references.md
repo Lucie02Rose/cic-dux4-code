@@ -1,8 +1,9 @@
 Hi, chances are you are working with long-read data if you require the T2T reference (also known as hs1 or chm13v2.0).
 Read this paper for more details on how it was made and generated: (note that the most difficult regions were put together manually)
 and also that this is one individuals genome and some genomic regions (repeats, retroviral elements etc) may actually give you
-a structural variant when variant calling on patient data - T2T is still not the repeat/dark genome standard
-Original Science manuscript: https://www.science.org/doi/10.1126/science.abj6987 
+a structural variant when variant calling on patient data - T2T is still not the repeat/dark genome standard. For a standardised version, try using 
+some of the Human PanGenome "references".
+Original Science manuscript for the T2T: https://www.science.org/doi/10.1126/science.abj6987 
 
 T2T files are hosted on NCBI, AWS Human Pangenomics as well as UCSC and are the same, it is up to you which ones you choose.
 
