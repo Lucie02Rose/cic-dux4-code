@@ -1,6 +1,6 @@
 #!/bin/bash
-#BSUB -o /lustre/scratch125/cellgen/behjati/lr26/outputs/%J-index.o
-#BSUB -e /lustre/scratch125/cellgen/behjati/lr26/errors/%J-index.e
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-index.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-index.e
 #BSUB -n 16
 #BSUB -M 32000
 #BSUB -R 'span [hosts=1] select[mem>32000] rusage[mem=32000]'
