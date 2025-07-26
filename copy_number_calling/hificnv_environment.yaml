@@ -1,0 +1,7 @@
+name: hificnv
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - hificnv=1.0.1=h9ee0642_0
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/hificnv
