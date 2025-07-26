@@ -1,9 +1,0 @@
-name: star_env
-channels:
-  - bioconda
-  - conda-forge
-dependencies:
-  - python=3.8
-  - star
-  - star-fusion
-prefix: /software/cellgen/team274/lr26/miniforge3/envs/star_env
