@@ -13,7 +13,7 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 # Directories
-reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.mmi"
+reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.fasta"
 input_bam="/lustre/scratch126/cellgen/behjati/lr26/PacBio/tumor_1A01_hifi_reads.bam"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1A01"
 tmp_dir="$output_dir/tmp"
