@@ -1,0 +1,12 @@
+name: bwa-mem2
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - bwa-mem2
+  - bcftools
+  - samtools=1.21
+  - picard
+  - minimap2
+  - biobambam
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/bwa-mem2

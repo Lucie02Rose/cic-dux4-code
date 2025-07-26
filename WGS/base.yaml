@@ -1,0 +1,29 @@
+name: base
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - conda[version='>=24.7.1']
+  - mamba[version='>=1.5.9']
+  - pbmm2
+  - sniffles
+  - minimap2
+  - gatk4
+  - pbsv
+  - canu
+  - pbtk
+  - pbbam
+  - samtools=1.21
+  - fastqc
+  - ngmlr
+  - xmlstarlet
+  - bcftools
+  - blast
+  - quast
+  - gfatools
+  - seqtk
+  - openjdk==17.0.14
+  - htslib=1.21
+prefix: /software/cellgen/team274/lr26/miniforge3
