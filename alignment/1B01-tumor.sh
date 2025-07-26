@@ -30,7 +30,7 @@ output_bam="$output_dir/${base_name}_pbmm2.bam"
 export TMPDIR="$tmp_dir"
 
 # Run pbmm2 Alignment
-echo "Aligning $input_fastq to $reference..."
+echo "Aligning $input_bam to $reference..."
 pbmm2 align "$reference" "$input_bam" "$output_bam" --preset HIFI --sort -j 16 --unmapped
 
 echo "pbmm2 alignment completed: $output_bam"
