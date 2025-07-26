@@ -15,7 +15,7 @@ conda activate base
 # Directories
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 input_bam="/lustre/scratch126/cellgen/behjati/lr26/PacBio/blood_1C01_hifi_reads.bam"
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1C01"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned"
 tmp_dir="$output_dir/tmp"
 
 # Create temp directory if it doesn't exist
