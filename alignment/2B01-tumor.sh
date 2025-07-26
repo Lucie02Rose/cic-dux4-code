@@ -30,8 +30,8 @@ output_bam="$output_dir/${base_name}_pbmm2.bam"
 export TMPDIR="$tmp_dir"
 
 # Indexing the T2T reference genome (if index files don't exist)
-if [ ! -f "$reference.mmi" ]; then
-  pbmm2 index "$reference"
+if [ ! -f "${reference%.fa}.mmi" ]; then
+    pbmm2 index "$reference"
 fi
 
 # Run pbmm2 Alignment
