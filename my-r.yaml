@@ -1,0 +1,33 @@
+name: my-r
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - r-base
+  - nb_conda_kernels
+  - r-biocmanager
+  - r-cramer
+  - r-curl
+  - r-igraph
+  - r-leidenbase
+  - r-png
+  - r-reticulate
+  - r-seurat
+  - r-soupx
+  - r-tidyverse
+  - r-sceasy
+  - anndata
+  - harmonypy
+  - loompy
+  - matplotlib
+  - pandas
+  - scanorama
+  - scanpy
+  - scipy
+  - scrublet
+  - scvi
+  - seaborn
+  - python=3.12
+  - r-irkernel
+  - pysam
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/my-r
