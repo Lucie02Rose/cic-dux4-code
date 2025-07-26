@@ -12,5 +12,5 @@ SCRIPT="Rscript /nfs/users/nfs_l/lr26/allele_check/genotypeCheck.R "
 bsub \
 -G "${GROUP}" -q "${QUEUE}"  -n ${CORES} \
 -M ${RAM} -R "select[mem>${RAM}] rusage[mem=${RAM}]" \
--o "/lustre/scratch126/cellgen/behjati/lr26/outputs/allele-%J.output" -e "/lustre/scratch126/cellgen/behjati/lr26/errors/allele-%J.error" \
+-o "/lustre/scratch126/casm/team274sb/lr26/outputs/allele-%J.output" -e "/lustre/scratch126/casm/team274sb/lr26/errors/allele-%J.error" \
 "${SCRIPT}"
