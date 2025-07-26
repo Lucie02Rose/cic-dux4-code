@@ -1,0 +1,5 @@
+name: quast-busco
+channels:
+  - bioconda
+  - conda-forge
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/quast-busco
