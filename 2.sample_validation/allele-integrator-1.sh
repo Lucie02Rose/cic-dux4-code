@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-
+# This is the AlleleIntegrator wrapper script (used by the group)
 CORES=52
 RAM="200G"
 QUEUE="hugemem"
 GROUP="team274"
 
 SCRIPT="Rscript /nfs/users/nfs_l/lr26/allele_check/genotypeCheck.R "
-
-#conda activate alleleIntegrator
+# this is a shared conda environment within the group (pre-Sanger datacentre incident)
+conda activate alleleIntegrator
 
 bsub \
 -G "${GROUP}" -q "${QUEUE}"  -n ${CORES} \
