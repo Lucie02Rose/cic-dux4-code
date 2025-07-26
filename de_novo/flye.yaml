@@ -1,8 +1,0 @@
-name: flye_env
-channels:
-  - bioconda
-  - conda-forge
-dependencies:
-  - python=3.9
-  - flye
-prefix: /software/cellgen/team274/lr26/miniforge3/envs/flye_env
