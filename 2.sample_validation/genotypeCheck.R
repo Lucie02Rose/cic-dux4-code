@@ -1,3 +1,5 @@
+### This is a R-based allele counting tool developed by Dr Mi Trinh ###
+
 # Check genotype consistency
 # Are all the BAMs you're going to use from the same individual?  Check before you start
 # Run Genotype Check for all scRNA-seq data against all WGS data
@@ -12,16 +14,12 @@
 #sudo cp /nfs/users/nfs_m/my4/bin/alleleCounter /usr/local/bin/alleleCounter
 #sudo chmod +x /usr/local/bin/alleleCounter
 
-
-
-
 ##-------------------##
 ##   Libraries     ####
 ##-------------------##
 library(tidyverse)
 library(alleleIntegrator)
 #source('genotypeCheck_helperFunctions.R')
-
 
 #------------------------ This section must be specified by users -----------------------------------------##
 
@@ -84,16 +82,7 @@ if(length(dnaBAMs) > 0){
 if(length(unique(names(dnaBAMs))) != length(dnaBAMs)){
   stop(sprintf('Duplicated dnaBAMs names detected: %s',names(dnaBAMs)[duplicated(names(dnaBAMs))]))
 }
-
-
-
-
 #------------------------ End of essential user-specified section -----------------------------------------##
-
-
-
-
-
 
 
 
