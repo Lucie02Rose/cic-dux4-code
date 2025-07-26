@@ -15,7 +15,7 @@ conda activate base
 # Directories
 reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.fa"
 input_bam="/lustre/scratch126/cellgen/behjati/lr26/PacBio/tumor_1A02_hifi_reads.bam"
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1A02"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned"
 tmp_dir="$output_dir/tmp"
 
 # Create temp directory if it doesn't exist
