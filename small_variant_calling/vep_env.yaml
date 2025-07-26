@@ -1,0 +1,7 @@
+name: vep_env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - ensembl-vep
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/vep_env
