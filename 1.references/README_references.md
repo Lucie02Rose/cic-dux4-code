@@ -1,3 +1,4 @@
+# Working with the T2T reference
 Hi, chances are you are working with long-read data if you require the T2T reference (also known as hs1 or chm13v2.0).
 Read this paper for more details on how it was made and generated: (note that the most difficult regions were put together manually)
 and also that this is one individuals genome and some genomic regions (repeats, retroviral elements etc) may actually give you
@@ -56,4 +57,9 @@ Finally, if you would like to view the T2T reference genome in the IGV on the fa
 (you can also add module load ISG/IRODS/1.0 while at it)
 3) bsub -I -XF -G yourunixgroup -q yesterday -R 'select[mem>10000] rusage[mem=10000] span[hosts=1]' -M 10000 -n 2 igv.sh 
 4) you can then load the hg38 or T2T reference in the interactive IGV
+
+# The hg38 reference
+The hg38 reference with decoy regions is hosted at the National Cancer Institute website:
+https://gdc.cancer.gov/about-data/gdc-data-processing/gdc-reference-files
+
 
