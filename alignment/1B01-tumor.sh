@@ -1,6 +1,6 @@
 #!/bin/bash
 #BSUB -n 16
-#BSUB -M 64000
+#BSUB -M 32000
 #BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
 #BSUB -q long
 #BSUB -J 1B01
@@ -13,7 +13,7 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 # Directories
-reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.mmi"
+reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.fa"
 input_bam="/lustre/scratch126/cellgen/behjati/lr26/PacBio/tumor_1B01_hifi_reads.bam"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1B01"
 tmp_dir="$output_dir/tmp"
@@ -37,5 +37,7 @@ fi
 # Run pbmm2 Alignment
 echo "Aligning $input_fastq to $reference..."
 pbmm2 align "$reference" "$input_bam" "$output_bam" --preset HIFI --sort -j 16 --unmapped
+
+echo "pbmm2 alignment completed: $output_bam"
 
 echo "pbmm2 alignment completed: $output_bam"
