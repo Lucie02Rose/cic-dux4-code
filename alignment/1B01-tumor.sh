@@ -39,5 +39,3 @@ echo "Aligning $input_fastq to $reference..."
 pbmm2 align "$reference" "$input_bam" "$output_bam" --preset HIFI --sort -j 16 --unmapped
 
 echo "pbmm2 alignment completed: $output_bam"
-
-echo "pbmm2 alignment completed: $output_bam"
