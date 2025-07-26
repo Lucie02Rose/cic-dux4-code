@@ -1,0 +1,19 @@
+Query: chr1:128421745-128422968 Query ID: lcl|Query_4639202 Length: 311
+
+
+>facioscapulohumeral muscular dystrophy [Homo sapiens]
+Sequence ID: BAA07227.1 Length: 853
+Range 1: 829 to 853
+
+Score:50.8 bits(120), Expect:9e-08, 
+Method:Compositional matrix adjust., 
+Identities:22/25(88%), Positives:22/25(88%), Gaps:0/25(0%)
+
+Query  180  LHSPPACCWMSSWRGRSFCSRSNLS  106
+            LHSP ACCWMSSWR RSFCSR NLS
+Sbjct  829  LHSPAACCWMSSWRARSFCSRRNLS  853
+
+
+
+
+

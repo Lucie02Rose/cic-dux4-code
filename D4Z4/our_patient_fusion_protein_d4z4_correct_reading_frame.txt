@@ -1,0 +1,17 @@
+Query: unnamed protein product Query ID: lcl|Query_1351088 Length: 103
+
+>double homeobox protein 4 isoform DUX4-fl [Homo sapiens]
+Sequence ID: NP_001280727.1 Length: 424
+Range 1: 360 to 424
+
+Score:89.7 bits(221), Expect:1e-21, 
+Method:Compositional matrix adjust., 
+Identities:51/65(78%), Positives:52/65(80%), Gaps:0/65(0%)
+
+Query  39   QEPGRSSALPSSLLLDELLARAEFLQQEQPFLEREAPGELEALEEAVSLEGPLSEEEFRA  98
+            QEP   SALP  LLLDELLA  EFLQQ QP LE EAPGELEA EEA SLE PLSEEE+RA
+Sbjct  360  QEPAPWSALPCGLLLDELLASPEFLQQAQPLLETEAPGELEASEEAASLEAPLSEEEYRA  419
+
+Query  99   LLEEL  103
+            LLEEL
+Sbjct  420  LLEEL  424
