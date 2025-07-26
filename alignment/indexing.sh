@@ -24,6 +24,6 @@ if [ ! -f "$reference" ]; then
 fi
 
 # Indexing the T2T reference genome (if index files don't exist)
-if [ ! -f "$reference.mmi" ]; then
-  pbmm2 index "$reference"
+if [ ! -f "${reference%.fa}.mmi" ]; then
+    pbmm2 index "$reference"
 fi
