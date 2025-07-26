@@ -1,0 +1,7 @@
+name: methylation
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - pb-cpg-tools=3.0.0=h9ee0642_0
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/methylation
