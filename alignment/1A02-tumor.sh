@@ -1,7 +1,7 @@
 #!/bin/bash
 #BSUB -n 16
 #BSUB -M 32000
-#BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
+#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
 #BSUB -J 1A02
 #BSUB -G team274
