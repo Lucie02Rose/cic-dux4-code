@@ -1,7 +1,0 @@
-name: deeptools
-channels:
-  - bioconda
-  - conda-forge
-dependencies:
-  - deeptools
-prefix: /software/cellgen/team274/lr26/miniforge3/envs/deeptools
