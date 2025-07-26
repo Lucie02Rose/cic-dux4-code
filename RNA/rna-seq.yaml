@@ -1,0 +1,17 @@
+name: rna-seq
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - r=4.3.0
+  - r-curl
+  - bioconductor-annotationdbi
+  - bioconductor-biomart
+  - bioconductor-deseq2
+  - bioconductor-fgsea
+  - bioconductor-genomicalignments
+  - bioconductor-genomicfeatures
+  - bioconductor-rtracklayer
+  - bioconductor-scran
+  - r-ggplot2
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/rna-seq

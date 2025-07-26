@@ -1,0 +1,7 @@
+name: salmon
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - salmon
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/salmon
