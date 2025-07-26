@@ -1,0 +1,7 @@
+name: sawfish
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - sawfish=0.12.9=h9ee0642_0
+prefix: /software/cellgen/team274/lr26/miniforge3/envs/sawfish
