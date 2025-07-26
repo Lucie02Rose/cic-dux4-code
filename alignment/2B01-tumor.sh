@@ -1,7 +1,7 @@
 #!/bin/bash
 #BSUB -n 16
-#BSUB -M 64000
-#BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
+#BSUB -M 32000
+#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
 #BSUB -J 2B01
 #BSUB -G team274
@@ -28,6 +28,11 @@ output_bam="$output_dir/${base_name}_pbmm2.bam"
 
 # Set TMPDIR for pbmm2 (samtools sorting)
 export TMPDIR="$tmp_dir"
+
+# Indexing the T2T reference genome (if index files don't exist)
+if [ ! -f "$reference.mmi" ]; then
+  pbmm2 index "$reference"
+fi
 
 # Run pbmm2 Alignment
 echo "Aligning $input_fastq to $reference..."
