@@ -29,6 +29,11 @@ output_bam="$output_dir/${base_name}_pbmm2.bam"
 # Set TMPDIR for pbmm2 (samtools sorting)
 export TMPDIR="$tmp_dir"
 
+# Indexing the T2T reference genome (if index files don't exist)
+if [ ! -f "$reference.mmi" ]; then
+  pbmm2 index "$reference"
+fi
+
 # Run pbmm2 Alignment
 echo "Aligning $input_fastq to $reference..."
 pbmm2 align "$reference" "$input_bam" "$output_bam" --preset HIFI --sort -j 16 --unmapped
