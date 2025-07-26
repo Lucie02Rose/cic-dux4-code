@@ -2,9 +2,9 @@ This folder contains scipts connected to alignment of long-read data
 to the T2T reference, indexing and optional decompression of the reference.
 
 All scripts work with the chm13v2.0.fa reference and assume that it has been downloaded already using 
-the wget commands listed in the README_references.md. chm13v2.0.fa can either be downloaded compressed
-or decompressed (there is an optional decompressing step but I downloaded the already decompressed 
-file). Note that the indexing.sh script needs to be run first for the alignments to work.
+the wget commands listed in the README_references.md in references. 
+chm13v2.0.fa can either be downloaded compressed or decompressed (there is an optional decompressing step but I downloaded the already decompressed file). Note that the indexing.sh script 
+needs to be run first for the alignments to work.
 Alignment files are organised by runs - e.g. tumor, blood, mom.
 
 The base conda environment is already included in my .bashrc, so I technically do not need to activate
