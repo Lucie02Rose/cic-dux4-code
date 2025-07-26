@@ -1,7 +1,7 @@
 #!/bin/bash
 #BSUB -n 16
-#BSUB -M 64000
-#BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
+#BSUB -M 32000
+#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
 #BSUB -J 1B02
 #BSUB -G team274
@@ -13,7 +13,7 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 # Directories
-reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.mmi"
+reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 input_bam="/lustre/scratch126/cellgen/behjati/lr26/PacBio/mom_1B02_hifi_reads.bam"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1B02"
 tmp_dir="$output_dir/tmp"
