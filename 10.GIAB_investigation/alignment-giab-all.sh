@@ -1,4 +1,5 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -n 32
 #BSUB -M 200000
 #BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
@@ -8,7 +9,7 @@
 #BSUB -o /nfs/users/nfs_l/lr26/outputs/%J_pbmm2-hifi-new.out
 #BSUB -e /nfs/users/nfs_l/lr26/errors/%J_pbmm2-hifi-new.err
 
-### Activate conda environment
+### activate the base conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
