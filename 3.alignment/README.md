@@ -12,5 +12,5 @@ it. However, the content of the conda environment matters (note that it uses the
 of anaconda, e.g. was installed with miniforge and not miniconda) since anaconda is now paid. 
 
 The programms in the base environment can be found in the .yml file also in this folder.
-The pbmm2 version used is also listed in the .yml. Note that pbmm2 is indifferent if the index
+The pbmm2 version used is also listed in the .yaml. Note that pbmm2 is indifferent if the index
 is named .fa.mmi or only .mmi.
