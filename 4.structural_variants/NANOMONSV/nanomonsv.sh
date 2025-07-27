@@ -1,4 +1,5 @@
 #!/bin/bash
+### prameters for the LSF job ###
 #BSUB -n 32
 #BSUB -M 200000
 #BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
@@ -8,19 +9,21 @@
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-nanomon.out
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-nanomon.err
 
+### failure management since this is actually a pipeline ###
 set -euo pipefail
+### some details on the job and where it is ###
 echo "Job started on $(date)"
 echo "Running on $(hostname)"
 
-# Step 0: Set working directory
+### set the working directory if it exists and echo what it is ###
 cd /lustre/scratch126/cellgen/behjati/lr26 || exit 1
 echo "Working directory: $(pwd)"
 
-# Load conda
+### activate the conda nanomonsv environment with all packages ###
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate nanomonsv
 
-# Define paths
+### define all the pathways, files and parameters that nanomonsv needs ###
 PARSE_DIR="$(pwd)/nanomonsv-parse_1"
 OUTPUT_DIR="$(pwd)/nanomonsv-results-matched_1"
 REFERENCE="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
@@ -29,22 +32,24 @@ CONTROL_FASTQ="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/blood_1C01_h
 SAMPLE_NAME="tumor-all"
 CONTROL_NAME="blood"
 
-# Create directories
+### create all the directories used in the process ###
 mkdir -p fastq/ bam/$SAMPLE_NAME/ bam/$CONTROL_NAME/ output/$SAMPLE_NAME/ output/$CONTROL_NAME/ "$OUTPUT_DIR" "$PARSE_DIR"
 
-# Step 1: Decompress FASTQ
+### decompress the fastqs (not inherently needed) ###
 echo "Decompressing FASTQ files..."
 gunzip -c "$SAMPLE_FASTQ" > "fastq/$SAMPLE_NAME.fastq"
 gunzip -c "$CONTROL_FASTQ" > "fastq/$CONTROL_NAME.fastq"
 
-# Step 2: Align reads
+### use the nanomonsv compatible minimap2 in the hifi mode and use directly samtools ###
 echo "Aligning $SAMPLE_NAME..."
 minimap2 -ax map-hifi -t 32 "$REFERENCE" "fastq/$SAMPLE_NAME.fastq" | samtools view -Shb - > "bam/$SAMPLE_NAME/$SAMPLE_NAME.unsorted.bam"
 
+### sort and index the alignment ###
 echo "Sorting and indexing $SAMPLE_NAME..."
 samtools sort -@ 32 -m 2G "bam/$SAMPLE_NAME/$SAMPLE_NAME.unsorted.bam" -o "bam/$SAMPLE_NAME/$SAMPLE_NAME.bam"
 samtools index "bam/$SAMPLE_NAME/$SAMPLE_NAME.bam"
 
+### repeat alignment and sorting and indexing for the contro also, multithreading where possible ###
 echo "Aligning $CONTROL_NAME..."
 minimap2 -ax map-hifi -t 32 "$REFERENCE" "fastq/$CONTROL_NAME.fastq" | samtools view -Shb - > "bam/$CONTROL_NAME/$CONTROL_NAME.unsorted.bam"
 
@@ -52,14 +57,14 @@ echo "Sorting and indexing $CONTROL_NAME..."
 samtools sort -@ 32 -m 2G "bam/$CONTROL_NAME/$CONTROL_NAME.unsorted.bam" -o "bam/$CONTROL_NAME/$CONTROL_NAME.bam"
 samtools index "bam/$CONTROL_NAME/$CONTROL_NAME.bam"
 
-# Step 3: Parse SVs
+### parse the structural variants using nanomonsv for both the tumor and matched normal ###
 echo "Parsing SVs for $SAMPLE_NAME..."
 nanomonsv parse "bam/$SAMPLE_NAME/$SAMPLE_NAME.bam" "output/$SAMPLE_NAME/$SAMPLE_NAME"
 
 echo "Parsing SVs for $CONTROL_NAME..."
 nanomonsv parse "bam/$CONTROL_NAME/$CONTROL_NAME.bam" "output/$CONTROL_NAME/$CONTROL_NAME"
 
-# Step 4: Get SVs with control sample
+### do the strucutral variant calling in the somatic mode ###
 echo "Running SV detection with NanoMonsv..."
 nanomonsv get \
     "output/$SAMPLE_NAME/$SAMPLE_NAME" \
@@ -79,7 +84,7 @@ nanomonsv get \
     --var_read_min_mapq 10 \
     > "$OUTPUT_DIR/nanomonsv_get.log" 2>&1
 
-# Step 5: Cleanup
+### remove files that are not necessary ###
 echo "Cleaning up temporary files..."
 rm "fastq/$SAMPLE_NAME.fastq" "fastq/$CONTROL_NAME.fastq"
 rm "bam/$SAMPLE_NAME/$SAMPLE_NAME.unsorted.bam" "bam/$CONTROL_NAME/$CONTROL_NAME.unsorted.bam"
