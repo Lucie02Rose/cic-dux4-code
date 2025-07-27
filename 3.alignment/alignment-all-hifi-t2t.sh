@@ -1,4 +1,5 @@
 #!/bin/bash
+### details for LSF job ###
 #BSUB -n 16
 #BSUB -M 200000
 #BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
@@ -8,18 +9,19 @@
 #BSUB -o /nfs/users/nfs_l/lr26/outputs/%J_pbmm2-hifi-new.out
 #BSUB -e /nfs/users/nfs_l/lr26/errors/%J_pbmm2-hifi-new.err
 
-### Activate conda environment
+### activate my base conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
-# Directories
+#### directories including temporary for sorting ###
 input_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned"
 tmp_dir="$output_dir/tmp"
-reference_fasta="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.fa"
-reference_index="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.mmi"
+reference_fasta="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
+reference_index="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.mmi"
 
-# Check if the index already exists
+### check if the index or reference exists, if not then make it ###
+### echo are used as messages written to the -o -e files ###
 if [ ! -f "$reference_index" ]; then
     echo "Index not found at $reference_index. Creating pbmm2 index..."
     pbmm2 index "$reference_fasta" "$reference_index"
@@ -28,26 +30,21 @@ else
     echo "Reference index already exists at $reference_index."
 fi
 
-# Create temp directory if it doesn't exist
+### create the output and temporary directories if not alreads there ###
 mkdir -p "$output_dir" "$tmp_dir"
-
-# Set TMPDIR for pbmm2 (samtools sorting)
+### pbmm2 needs to export the temporary for sorting ###
 export TMPDIR="$tmp_dir"
 
-# Loop through all BAM files in the input directory
+### a for loop for the bam files in the input to ###
 for input_bam in "$input_dir"/*.bam; do
-    # Extract base name of the BAM file (without extension)
+    ### extract the base name without the .bam for all samples ###
     base_name=$(basename "$input_bam" .bam)
-    
-    # Define output BAM file path
+    ### define what will the output look like and give it the _pbmm2.bam extension ###
     output_bam="$output_dir/${base_name}_pbmm2.bam"
-
-    # Print which file is being processed
+    ### print statement for the files being aligned ###
     echo "Aligning $input_bam to $reference..."
-
-    # Run the pbmm2 alignment
+    ### pbmm2 align with the preset HIFI for high fidelity reads, sort for direct sorting, j for multithreaded, unmapped for mapping 
     pbmm2 align "$reference_index" "$input_bam" "$output_bam" --preset HIFI --sort -j 16 --unmapped
-
-    # Print completion message
+    ### echo for having finished ###
     echo "pbmm2 alignment completed: $output_bam"
 done
