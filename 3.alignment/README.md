@@ -1,4 +1,4 @@
-This folder contains scipts connected to alignment of long-read data
+This folder contains scipts connected to quality control, alignment of long-read data
 to the T2T and hg38 references, indexing and optional decompression of the references.
 
 All scripts work with the chm13v2.0.fa reference and assume that it has been downloaded already using 
