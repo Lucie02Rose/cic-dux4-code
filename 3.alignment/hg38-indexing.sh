@@ -14,7 +14,7 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 ### directories ###
-reference_gz="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa..gz"
+reference_gz="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa.gz"
 reference="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
 ref_dir="/lustre/scratch126/cellgen/behjati/lr26/hg38"
 ### change to reference ###
