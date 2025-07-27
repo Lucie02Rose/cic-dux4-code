@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This is the AlleleIntegrator wrapper script (used by the group)
+### This is the AlleleIntegrator wrapper script (used by the group) ###
 CORES=52 # no of cpus
 RAM="200G" # a lot of samples - a lot of memory
 QUEUE="hugemem" # big memory queue
