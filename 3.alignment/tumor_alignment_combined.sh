@@ -19,6 +19,7 @@ hg38_reference="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.mmi"
 input_fastq1="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_1A01_hifi_reads.fastq.gz"
 input_fastq2="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_1A02_hifi_reads.fastq.gz"
 input_fastq3="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_2B01_hifi_reads.fastq.gz"
+sequel_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_sequel_hifi_reads.fastq.gz"
 input_fastq4="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_1B01_hifi_reads.fastq.gz"
 combined_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_all_4_hifi_reads.fastq.gz"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned"
@@ -26,6 +27,8 @@ output_dir_hg38="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38"
 tmp_dir="/lustre/scratch126/cellgen/behjati/lr26/tmp"
 
 ### combine all the fastq files ###
+### the sequel will be needed for hifiasm assembly ###
+cat "$input_fastq1" "$input_fastq2" "$input_fastq3" > "$sequel_fastq"
 cat "$input_fastq1" "$input_fastq2" "$input_fastq3" "$input_fastq4" > "$combined_fastq"
 
 ### create the temporary and output directories if not already present ###
