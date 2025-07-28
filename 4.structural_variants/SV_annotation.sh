@@ -1,4 +1,5 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-svfilt.o
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-svfilt.e
 #BSUB -n 12
@@ -8,10 +9,13 @@
 #BSUB -J svfilt
 #BSUB -G team274
 
+### activate the conda envrionment with bcftools, samtools etc ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate bioinfo
 
-### Directories to process
+### define all the directories - before running this script I ensure that I have all the output samples named 
+### how I want them in the correct directories - this means that I have moverd them to the respective directories here
+### which is vital for this step to work ###
 nanomon_un="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.vcf"
 nanomon="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annotated.vcf"
 nanomon_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annrepeats.vcf"
@@ -41,6 +45,8 @@ $3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
 ### zip and index the bed file to use for annotation ###
 bgzip -c "$bed" > "${bed}.gz"
 tabix -p bed "${bed}.gz"
+
+
 #bcftools sort "$nanomon_un" -o "$nanomon"
 
 bcftools annotate \
