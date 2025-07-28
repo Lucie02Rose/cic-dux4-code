@@ -17,6 +17,8 @@ conda activate bioinfo
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish"
 tumor_all="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_4_hifi_reads_pbmm2_joint_call/genotyped.sv.vcf.gz"
 blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/blood_1C01_hifi_reads_pbmm2_joint_call/genotyped.sv.vcf.gz"
+nanomon_un="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.vcf"
+nanomon="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.sorted.vcf"
 
 ### the reason for this script is to make variant caller ouputs fit for annotation ###
 ### sawfish needs filtering to retain only the somatic variants in the tumor ###
