@@ -48,26 +48,7 @@ bcftools index tumor_all_genotyped.norm.sort.sv.vcf.gz
 bcftools index blood_genotyped.norm.sort.sv.vcf.gz
 ### filter what is unique to the tumor (keep somatic variants ###
 bcftools isec -p isec_tumor_only -C tumor_all_genotyped.norm.sort.sv.vcf.gz blood_genotyped.norm.sort.sv.vcf.gz
-
-#cp "$nanomontum" . 
-
-bcftools query -f '%CHROM\t%POS\t%INFO/END\n' sawfish_germline_blood_mom.vcf | awk '$3 < $2 {print $1"\t"$2}' > bad_sawfish_germline.txt
-bcftools query -f '%CHROM\t%POS\t%INFO/END\n' sawfish_tumor_somatic.vcf | awk '$3 < $2 {print $1"\t"$2}' > bad_sawfish_tumor.txt
-bcftools query -f '%CHROM\t%POS\t%INFO/END\n' tumor-somatic_nanomonsv.vcf | awk '$3 < $2 {print $1"\t"$2}' > bad_somatic_nanomonsv.txt
-
-bcftools view -T ^bad_sawfish_germline.txt sawfish_germline_blood_mom.vcf -o valid_sawfish_germline_blood_mom.vcf -O v
-bcftools view -T ^bad_sawfish_tumor.txt sawfish_tumor_somatic.vcf -o valid_sawfish_tumor_somatic.vcf -O v
-bcftools view -T ^bad_somatic_nanomonsv.txt tumor_somatic_nanomonsv.vcf -o valid_tumor_somatic_nanomonsv.vcf -O v
-
-bcftools view -T bad_sawfish_germline.txt sawfish_germline_blood_mom.vcf | bcftools annotate --remove INFO/END -o fixed_sawfish_germline_blood_mom.vcf -O v
-bcftools view -T bad_sawfish_tumor.txt sawfish_tumor_somatic.vcf | bcftools annotate --remove INFO/END -o fixed_sawfish_tumor_somatic.vcf -O v
-bcftools view -T bad_somatic_nanomonsv.txt tumor_somatic_nanomonsv.vcf | bcftools annotate --remove INFO/END -o fixed_tumor_somatic_nanomonsv.vcf -O v
-
-bcftools concat -a valid_sawfish_germline_blood_mom.vcf fixed_sawfish_germline_blood_mom.vcf -o cleaned_sawfish_germline_blood_mom.vcf -O v
-bcftools concat -a valid_sawfish_tumor_somatic.vcf fixed_sawfish_tumor_somatic.vcf -o cleaned_sawfish_tumor_somatic.vcf -O v
-bcftools concat -a valid_tumor_somatic_nanomonsv.vcf fixed_tumor_somatic_nanomonsv.vcf -o cleaned_tumor_somatic_nanomonsv.vcf -O v
-
-bcftools annotate -a "$bed" -c CHROM,FROM,TO,INFO/Gene -h <(echo '##INFO=<ID=Gene,Number=1,Type=String,Description="Overlapping gene">') -o annotated_sawfish_germline_blood_mom.vcf -O v cleaned_sawfish_germline_blood_mom.vcf 
-bcftools annotate -a "$bed" -c CHROM,FROM,TO,INFO/Gene -h <(echo '##INFO=<ID=Gene,Number=1,Type=String,Description="Overlapping gene">') -o annotated_sawfish_tumor_somatic.vcf -O v cleaned_sawfish_tumor_somatic.vcf
-bcftools annotate -a "$bed" -c CHROM,FROM,TO,INFO/Gene -h <(echo '##INFO=<ID=Gene,Number=1,Type=String,Description="Overlapping gene">') -o annotated_tumor_somatic_nanomonsv.vcf -O v cleaned_tumor_somatic_nanomonsv.vcf
-
+### normalisation, sorting and indexing should fix any downstream issues ###
+### however if there are errors e.g. malformed starts and end positions (actually might be an inversion) ###
+### try querying the ones where the start iw bigger than the end, e.g. awk '$3 < $2 {print $1"\t"$2}' ###
+### label those as bad variants in a txt file and then using view exclude all the ones from the file cleaning the file ####
