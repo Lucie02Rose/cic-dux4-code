@@ -13,32 +13,26 @@
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate sawfish
 
-#### directories including temporary for sorting ###
-bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38/tumor_all_4_hifi_pbmm2.bam"
-reference_fasta="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
+#### define reference, input and output directories ###
+bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38/tumor_all_4_hifi_reads_pbmm2.bam"
+reference="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
+output_vcf_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-hg38"
 
-bam_file="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-hg38/tumor-all_pbmm2-farm22.bam"
-output_vcf_dir="/lustre/scratch126/casm/team274sb/lr26/sawfishhg38tumor"
-
-# Extract base name from BAM file
+### extract the basename from the file ###
 base_name=$(basename "$bam_file" .bam)
-
-# Define unique output directories
+### define the two output directories needed by sawfish ###
 discover_dir="$output_vcf_dir/${base_name}_discover"
 joint_call_dir="$output_vcf_dir/${base_name}_joint_call"
-
-# Remove existing directories if they exist
+### remove any previous ones for this file ###
 [ -d "$discover_dir" ] && rm -rf "$discover_dir"
 [ -d "$joint_call_dir" ] && rm -rf "$joint_call_dir"
-
+### print statement to run the discover step ###
 echo "Running Sawfish discover on $bam_file using $reference..."
-
-# Step 1: Discover SVs
+### discover structural variants step ###
 sawfish discover --bam "$bam_file" --output-dir "$discover_dir" --ref "$reference" --threads 16
-
+### print statement to run the second joint call step ###
 echo "Running Sawfish joint-call for $base_name..."
-
-# Step 2: Joint calling
+### run the second joint call step ###
 sawfish joint-call --sample "$discover_dir" --output-dir "$joint_call_dir" --threads 16
-
+### print statement for finished ###
 echo "Sawfish processing completed for: $base_name"
