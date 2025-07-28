@@ -1,10 +1,10 @@
 #!/bin/bash
 ### parameters for the LSF job ###
 #BSUB -n 16
-#BSUB -M 100000
-#BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
+#BSUB -M 64000
+#BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
 #BSUB -q normal
-#BSUB -J bam2fastq_job
+#BSUB -J bam2fastq
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/bamfastq-%J.o
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/bamfastq-%J.e
