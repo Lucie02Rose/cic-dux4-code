@@ -18,8 +18,7 @@ blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/blood_1C01_hifi_re
 gff3_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3.gz"
 gff3="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3"
 bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.bed"
-tumor="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic/tumor_somatic_annotated.vcf"
-tumor_2="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic/tumor_somatic_annotated_2.vcf"
+tumor="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_somatic_annotated.vcf"
 
 ### convert the gff3 to the bed format for annotation, provided it is sorted by chromosome, extract what is needed ###
 ### and directly sort the bed file by chromosome ###
@@ -36,18 +35,19 @@ $3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
 ### zip and index the bed file to use for annotation ###
 bgzip -c "$bed" > "${bed}.gz"
 tabix -p bed "${bed}.gz"
-### change to the output directory 
+### change to the output directory ###
 cd "$output_dir"
-
+### normalise the sawfish output ###
 bcftools norm -m -any -Oz -o tumor_all_genotyped.norm.sv.vcf.gz "$tumor_all"
 bcftools norm -m -any -Oz -o blood_genotyped.norm.sv.vcf.gz "$blood"
-
-bcftools index tumor_all_genotyped.norm.sv.vcf.gz
-bcftools index blood_genotyped.norm.sv.vcf.gz
-
-# Unique to file1 (not in file2 or file3)
-bcftools isec -p isec_tumor_only -C tumor_all_genotyped.norm.sv.vcf.gz blood_genotyped.norm.sv.vcf.gz
-
+### sort the sawfish output ###
+bcftools sort tumor_all_genotyped.norm.sv.vcf.gz -Oz -o tumor_all_genotyped.norm.sort.sv.vcf.gz
+bcftools sort blood_genotyped.norm.sv.vcf.gz -Oz -o blood_genotyped.norm.sort.sv.vcf.gz
+### index the sawfish output ###
+bcftools index tumor_all_genotyped.norm.sort.sv.vcf.gz
+bcftools index blood_genotyped.norm.sort.sv.vcf.gz
+### filter what is unique to the tumor (keep somatic variants ###
+bcftools isec -p isec_tumor_only -C tumor_all_genotyped.norm.sort.sv.vcf.gz blood_genotyped.norm.sort.sv.vcf.gz
 
 #cp "$nanomontum" . 
 
