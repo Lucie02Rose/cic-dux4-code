@@ -4,7 +4,7 @@
 #BSUB -M 64000
 #BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
 #BSUB -q normal
-#BSUB -J pbmm2-sev-1B02
+#BSUB -J savana
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-savana.out
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-savana.err
