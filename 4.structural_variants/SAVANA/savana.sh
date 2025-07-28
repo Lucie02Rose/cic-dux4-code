@@ -1,8 +1,8 @@
 #!/bin/bash
 ### parameters required for teh LSF job ###
 #BSUB -n 16
-#BSUB -M 75000
-#BSUB -R 'span[hosts=1] select[mem>75000] rusage[mem=75000]'
+#BSUB -M 64000
+#BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
 #BSUB -q normal
 #BSUB -J pbmm2-sev-1B02
 #BSUB -G team274
@@ -17,7 +17,7 @@ conda activate savana
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 input_blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/blood_1C01_hifi_reads_pbmm2.bam"
 input_tumor="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/tumor_all_4_hifi_reads_pbmm2.bam"
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-savana-new"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-savana"
 
 ### create the output directory ###
 mkdir -p "$output_dir"
