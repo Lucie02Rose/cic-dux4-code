@@ -4,10 +4,10 @@
 #BSUB -M 200000
 #BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
 #BSUB -q basement
-#BSUB -J pbmm2-hifi-new
+#BSUB -J pbmm2-hifi-new-t2t
 #BSUB -G team274
-#BSUB -o /nfs/users/nfs_l/lr26/outputs/%J_pbmm2-hifi-new.out
-#BSUB -e /nfs/users/nfs_l/lr26/errors/%J_pbmm2-hifi-new.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J_pbmm2-hifi-new-t2t.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J_pbmm2-hifi-new-t2t.err
 
 ### activate my base conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
