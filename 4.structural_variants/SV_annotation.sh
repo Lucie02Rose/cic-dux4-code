@@ -12,10 +12,9 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate bioinfo
 
 ### Directories to process
-bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.bed"
-#nanomon_un="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv-new/tumor-all.nanomonsv.result.vcf"
-nanomon="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv-new/tumor-all.nanomonsv.result.annotated.vcf"
-nanomon_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv-new/tumor-all.nanomonsv.result.annrepeats.vcf"
+nanomon_un="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.vcf"
+nanomon="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annotated.vcf"
+nanomon_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annrepeats.vcf"
 sawfish="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic-new/sawfish-somatic.annotated.vcf"
 sawfish_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic-new/sawfish-somatic.annrepeats.vcf"
 savana="/lustre/scratch126/cellgen/behjati/lr26/PacBio-savana-new/savana.somatic.annotated.vcf"
@@ -23,7 +22,25 @@ savana_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-savana-new/savana.s
 severus="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus-new/severus_somatic_breakpoints_double.annotated.vcf"
 severus_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus-new/severus_somatic_breakpoints_double.annrepeats.vcf"
 repeats="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RepeatMasker_4.1.2p1.2022Apr14.bed"
+gff3_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3.gz"
+gff3="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3"
+bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.bed"
 
+### convert the gff3 to the bed format for annotation, provided it is sorted by chromosome, extract what is needed ###
+### and directly sort the bed file by chromosome ###
+zcat "$gff3_gz" | awk -F'\t' '
+$3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
+    id = "."  # default
+    if (match($9, /gene_name=([^;]+)/, a)) {
+        id = a[1]
+    } else if (match($9, /ID=([^;]+)/, a)) {
+        id = a[1]
+    }
+    print $1, $4 - 1, $5, id, ".", $7
+}' OFS='\t' | sort -k1,1 -k2,2n > "$bed"
+### zip and index the bed file to use for annotation ###
+bgzip -c "$bed" > "${bed}.gz"
+tabix -p bed "${bed}.gz"
 #bcftools sort "$nanomon_un" -o "$nanomon"
 
 bcftools annotate \
