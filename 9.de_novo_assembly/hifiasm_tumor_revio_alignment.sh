@@ -17,11 +17,11 @@ conda activate base
 ### in that case just change there and run: mv PacBio-revio* PacBio-revio ###
 ### directories for the conversion ###
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.mmi"
-sequel_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-revio"
+revio_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-revio"
 ### all samples start with this name ###
 samples=("PacBio-revio")
 ### change to that directory ###
-cd "$sequel_dir"
+cd "$revio_dir"
 ### there are no fasta outputs compared to flye so a conversion is needed (very lightweight) ###
 for file in *.p_ctg.gfa; do
     awk '/^S/{print ">"$2;print $3}' "$file" > "${file%.gfa}.fasta"
