@@ -1,29 +1,57 @@
 #!/bin/bash
 ### parameters for the LSF job ###
-#BSUB -n 64
-#BSUB -M 150000
-#BSUB -R 'span[hosts=1] select[mem>150000] rusage[mem=150000]'
-#BSUB -q hugemem
-#BSUB -J hifimom
+#BSUB -n 16
+#BSUB -M 120000
+#BSUB -R 'span[hosts=1] select[mem>120000] rusage[mem=120000]'
+#BSUB -q yesterday
+#BSUB -J hifi-mom
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-momdenovo.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-momdenovo.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-hifi-mom-align.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-hifi-mom-align.err
 
-### activate the hifiasm conda environment ###
+### activate the base conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
-conda activate hifiasm-env
+conda activate base
 
-### use the already 30x revio sample ###
-combined_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/mom_1B02_hifi_reads.fastq.gz"
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom"
-tmp_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom/tmp"
-
-### create the output and temporary directory, export the temporary directory ####
-mkdir -p "$output_dir"
-mkdir -p "$tmp_dir"
-export TMPDIR="$tmp_dir"
-
-### run hifiasm on the mom ###
-hifiasm -o "$output_dir" -t64 "$combined_fastq"
-### note that assembly is running ###
-echo "assembly process has started"
+### there is a chance that all the files are in the base directory "/lustre/scratch126/cellgen/behjati/lr26/" ###
+### in that case just change there and run: mv PacBio-mom* PacBio-mom ###
+### directories for the conversion ###
+reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.mmi"
+mom_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom"
+### all samples start with this name ###
+samples=("PacBio-mom")
+### change to that directory ###
+cd "$mom_dir"
+### there are no fasta outputs compared to flye so a conversion is needed (very lightweight) ###
+for file in *.p_ctg.gfa; do
+    awk '/^S/{print ">"$2;print $3}' "$file" > "${file%.gfa}.fasta"
+done
+### then loop over all the converted samples ###
+### the base_dir will also be the output and there will be a temporary directory created and exported for sorting ###
+for sample in "${samples[@]}"; do
+    base_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom"
+    output_dir="$base_dir"
+    tmp_dir="$output_dir/tmp"
+    mkdir -p "$tmp_dir"
+    export TMPDIR="$tmp_dir" 
+    ### the only fasta files that I am interested in aligning are the bp and p_ctg.fasta files, not unitigs nor noseq files
+    find "$base_dir" -maxdepth 1 -type f -name "${sample}.bp*.p_ctg.fasta" ! -name "*noseq*" ! -name "*utg*" | while read -r fasta; do
+        ### all these regardless of hap1 hap2 or overall will have the filename extracted ###
+        filename=$(basename "$fasta")
+        ### and a new bam file name created ###
+        outname="${filename%.fasta}_vs_t2t"
+        bam_out="${output_dir}/${outname}.bam"
+   
+        ### multithreaded minimap which takes each file, aligns it and directly sorts and indexes it ###
+        echo "Processing $filename"
+        (   
+            minimap2 -t 16 -ax asm5 "$reference" "$fasta" | \
+            samtools sort -@ 16 -o "$bam_out" - 
+        
+            samtools index "$bam_out"
+        ) &
+    done
+    ### in a for loop so done for each file of interest ###
+    ### wait for all jobs to finish before done ###
+    wait
+done
