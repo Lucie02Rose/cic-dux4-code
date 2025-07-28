@@ -33,8 +33,8 @@ mkdir -p "$tmp_dir" "$output_dir" "$output_dir_hg38"
 
 ### define the output bam file name ###
 base_name=$(basename "$combined_fastq" .fastq.gz)
-output_bam="$output_dir/${base_name}.bam"
-output_bam_hg38="$output_dir_hg38/${base_name}.bam"
+output_bam="$output_dir/${base_name}_pbmm2.bam"
+output_bam_hg38="$output_dir_hg38/${base_name}_pbmm2.bam"
 #### temporary directory for sorting (export) ###
 export TMPDIR="$tmp_dir"
 
