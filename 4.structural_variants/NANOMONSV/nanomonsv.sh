@@ -24,8 +24,8 @@ source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate nanomonsv
 
 ### define all the pathways, files and parameters that nanomonsv needs ###
-PARSE_DIR="$(pwd)/nanomonsv-parse_1"
-OUTPUT_DIR="$(pwd)/nanomonsv-results-matched_1"
+PARSE_DIR="$(pwd)/nanomonsv-parse"
+OUTPUT_DIR="$(pwd)/nanomonsv-results-matched"
 REFERENCE="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 SAMPLE_FASTQ="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_all_4_hifi_reads.fastq.gz"
 CONTROL_FASTQ="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/blood_1C01_hifi_reads.fastq.gz"
