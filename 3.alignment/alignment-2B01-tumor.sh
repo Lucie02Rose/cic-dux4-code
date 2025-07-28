@@ -4,7 +4,7 @@
 #BSUB -M 32000
 #BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
-#BSUB -J 1A01
+#BSUB -J 2B01
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-1A01.out
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-1A01.err
