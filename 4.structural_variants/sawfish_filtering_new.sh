@@ -18,7 +18,6 @@ blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/blood_1C01_hifi_re
 gff3_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3.gz"
 gff3="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3"
 bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.bed"
-tumor="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_somatic_annotated.vcf"
 
 ### convert the gff3 to the bed format for annotation, provided it is sorted by chromosome, extract what is needed ###
 ### and directly sort the bed file by chromosome ###
