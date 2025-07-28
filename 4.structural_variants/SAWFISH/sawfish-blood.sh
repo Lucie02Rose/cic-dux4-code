@@ -13,7 +13,7 @@
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate sawfish || { echo "Failed to activate Conda environment"; exit 1; }
 
-reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.fa"
+reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1C01/blood_1C01_hifi_reads_pbmm2.bam"
 output_vcf_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-blood"
 
