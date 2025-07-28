@@ -15,4 +15,5 @@ There are a couple of caveats connected to pipelining here:
 5) sawfish ouput is also used for germline variant annotation - e.g. the blood sample is good for this since there shouldn't be somatic variants which are in the tumor
 6) annotation is carried out by firsly converting all the Liftoff Refseq annotations gff3 file (manually reviewed genic locations) to a bed file which is used for annotation
 7) bcftools annotation can only do one file at a time so first, annotation with the RefSeq and then with RepeatMasker is carried out for each of the vcf file
-8) Then, all the other filtering functions apart from the helper for severus conversion can be run as downstream analysis
+8) For the ease of running downstream filtering, I have moved all the bcftools annotation output files to one folder called SV 
+9) Then, all the other filtering functions apart from the helper for severus conversion can be run as downstream analysis
