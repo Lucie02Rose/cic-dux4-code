@@ -1,8 +1,8 @@
 #!/bin/bash
 ### parameters for the LSF job ###
 #BSUB -n 16
-#BSUB -M 75000
-#BSUB -R 'span[hosts=1] select[mem>75000] rusage[mem=75000]'
+#BSUB -M 32000
+#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q normal
 #BSUB -J pbmm2-sev-1B01
 #BSUB -G team274
