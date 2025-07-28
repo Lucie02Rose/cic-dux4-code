@@ -16,7 +16,7 @@ export SINGULARITY_CACHEDIR=/lustre/scratch126/casm/team274sb/lr26/singularity
 export SINGULARITY_TMPDIR=/lustre/scratch126/casm/team274sb/lr26/singularity/tmp
 
 # Define paths
-SINGULARITY_IMG="/lustre/scratch126/casm/team274sb/lr26/singularity/pepper_deepvariant_r0.8.sif"
+SINGULARITY_IMG="/lustre/scratch126/casm/team274sb/lr26/singularity/pepper_margin_deepvariant_r0.8.sif"
 BAM_FILE="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment/1_C01-revio/m84047_240202_155616_s3.hifi_reads.bc2026_pbmm2.bam"
 REFERENCE="/lustre/scratch126/casm/team274sb/lr26/T2T/chm13v2.0.fa"
 OUTPUT_DIR="/lustre/scratch126/casm/team274sb/lr26/pepper-blood"
