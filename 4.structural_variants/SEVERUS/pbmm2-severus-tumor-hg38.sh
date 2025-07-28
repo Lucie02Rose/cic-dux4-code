@@ -15,7 +15,7 @@ conda activate severus_env
 
 ### define the input, output and reference ###
 reference="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
-input_bam_dir="/lustre/scratch126/cellgen/behjati/lr26/pbmm2-alignment-tumor-hg38"
+input_bam_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-tumor_all_4_hifi_reads"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus-hg38"
 ### create the output directory ###
 mkdir -p "$output_dir"
