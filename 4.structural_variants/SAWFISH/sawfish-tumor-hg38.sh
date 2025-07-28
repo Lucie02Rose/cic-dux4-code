@@ -1,20 +1,20 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -n 16
 #BSUB -M 64000
 #BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
 #BSUB -q normal
-#BSUB -J pbmm2-sawfish-hg38-tumor
+#BSUB -J sawfish-hg38-tumor
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/%J-sawfish-hg38.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J-sawfish-hg38.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/%J-sawfish-tumor-hg38.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J-sawfish-tumor-hg38.err
 
-### Activate conda environment
+### activate the sawfish conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
-conda activate sawfish || { echo "Failed to activate Conda environment"; exit 1; }
+conda activate sawfish
 
 #### directories including temporary for sorting ###
-input_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio"
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38/"
+bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38/tumor_all_4_hifi_pbmm2.bam"
 reference_fasta="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
 
 bam_file="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-hg38/tumor-all_pbmm2-farm22.bam"
