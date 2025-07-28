@@ -1,35 +1,33 @@
 #!/bin/bash
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/%J.o
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J.e
+### parameters for the LSF job ###
 #BSUB -n 16
 #BSUB -M 200000
 #BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
 #BSUB -q basement
-#BSUB -J pbmm2-assembly-t2t
+#BSUB -J flye-alignment
 #BSUB -G team274
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-flye-alignment.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-flye-alignment.e
 
+### activate the environment with minimap and samtools ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
+### references, input and output ###
+reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.mmi"
+input="/lustre/scratch126/cellgen/behjati/lr26/Flye/assembly.fasta"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/Flye"
 
-reference="/lustre/scratch126/casm/team274sb/lr26/T2T/chm13v2.0.mmi"
-input="/lustre/scratch126/casm/team274sb/lr26/flye-pacbio-tumor/assembly.fasta"
-output_dir="/lustre/scratch126/casm/team274sb/lr26/flye-pacbio-tumor/"
-
+### alignment with minimap ###
 echo "Aligning assembly to t2t..."
-
 minimap2 -ax asm20 "$reference" "$input" -o "$output_dir/all_contigs_vs_T2T.sam"
 
-echo "Alignment completed, activating bioinfo"
-
-source /software/cellgen/team274/lr26/miniforge3/bin/activate
-conda activate bioinfo
-
-echo "Sorting and indexing with samtools"
-
+### alignment completed and then sort and index the sam file ###
+echo "Alignment completed, sorting and indexing with samtools"
+### convert to bam file ###
 samtools view -Sb "$output_dir/all_contigs_vs_T2T.sam" > "$output_dir/all_contigs_vs_T2T.bam"
-
+### sort ###
 samtools sort "$output_dir/all_contigs_vs_T2T.bam" -o "$output_dir/all_contigs_vs_T2T_sorted.bam"
-
+### index ###
 samtools index "$output_dir/all_contigs_vs_T2T_sorted.bam"
-
+### message that it is completed ###
 echo "Completed."
