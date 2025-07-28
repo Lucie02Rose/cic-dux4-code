@@ -1,24 +1,29 @@
 #!/bin/bash
-#BSUB -n 16
-#BSUB -M 32000
-#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
-#BSUB -q yesterday
-#BSUB -J pbmm2-hifiasm
+### parameters for the LSF job ###
+#BSUB -n 64
+#BSUB -M 150000
+#BSUB -R 'span[hosts=1] select[mem>150000] rusage[mem=150000]'
+#BSUB -q hugemem
+#BSUB -J hifimom
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-giabhificon.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-giabhificon.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-momdenovo.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-momdenovo.err
 
-### Activate conda environment
+### activate the hifiasm conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
-conda activate base
+conda activate hifiasm-env
 
-# Directories
-reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.mmi"
-giab_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom"
+### use the already 30x revio sample ###
+combined_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/mom_1B02_hifi_reads.fastq.gz"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom"
+tmp_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom/tmp"
 
-cd "$giab_dir"
+### create the output and temporary directory, export the temporary directory ####
+mkdir -p "$output_dir"
+mkdir -p "$tmp_dir"
+export TMPDIR="$tmp_dir"
 
-for file in *.p_ctg.gfa; do
-    awk '/^S/{print ">"$2;print $3}' "$file" > "${file%.gfa}.fasta"
-done
-
+### run hifiasm on the blood ###
+hifiasm -o "$output_dir" -t64 "$combined_fastq"
+### note that assembly is running ###
+echo "assembly process has started"
