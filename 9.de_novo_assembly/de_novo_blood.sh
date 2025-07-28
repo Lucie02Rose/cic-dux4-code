@@ -1,29 +1,30 @@
 #!/bin/bash
+### parameters for the LSF ###
 #BSUB -n 64
-#BSUB -M 600000
-#BSUB -R 'span[hosts=1] select[mem>600000] rusage[mem=600000]'
+#BSUB -M 200000
+#BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
 #BSUB -q hugemem
-#BSUB -J flye_tumor_assembly
+#BSUB -J flye_blood_assembly
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/%J.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-flye-blood.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-flye-blood.err
 
-### Activate conda environment
+### activate the conda environment with flye ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate flye_env
 
-# Define directories
-input_fastq="/lustre/scratch126/casm/team274sb/lr26/filtered_bams/blood_unique.fasta"
-output_dir="/lustre/scratch126/casm/team274sb/lr26/filtered_bams/blood_denovo_chr1410"
-tmp_dir="/lustre/scratch126/casm/team274sb/lr26/denovblood"
+### define the input, output ###
+input_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/blood_1C01_hifi_reads.fastq"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/Flye-blood"
+tmp_dir="/lustre/scratch126/cellgen/behjati/lr26/Flye-blood/tmp"
 
-# Create temporary directory
+### create the output and temporary directories ###
 mkdir -p "$output_dir"
 mkdir -p "$tmp_dir"
 export TMPDIR="$tmp_dir"
 
-# Run Flye with reduced memory & threads
+### run flye with the pacbio preset, fastq, output directory, genome size and threads ###
 flye --pacbio-raw "$input_fastq" --out-dir "$output_dir" --genome-size 3g --threads 64
-
+### print statement to check outputs ###
 echo "Flye assembly process has started. Check logs in $output_dir"
 
