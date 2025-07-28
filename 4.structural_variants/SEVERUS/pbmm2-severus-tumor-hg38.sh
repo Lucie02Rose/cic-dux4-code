@@ -1,25 +1,25 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -n 16
-#BSUB -M 100000
-#BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
-#BSUB -q long
-#BSUB -J pbmm2-tum-hg38
+#BSUB -M 32000
+#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
+#BSUB -q normal
+#BSUB -J severus-hg38-tum
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/%J.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-severus-hg38.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-severus-hg38.err
 
-# Activate conda environment for Severus
+### activate the severus conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate severus_env
 
-# Directories
-reference="/lustre/scratch126/casm/team274sb/lr26/hg38/genome.fa"
-input_bam_dir="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-hg38"
-output_dir="/lustre/scratch126/casm/team274sb/lr26/severus-tumor-hg38"
-
-# Create output directory if it does not exist
+### define the input, output and reference ###
+reference="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
+input_bam_dir="/lustre/scratch126/cellgen/behjati/lr26/pbmm2-alignment-tumor-hg38"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus-hg38"
+### create the output directory ###
 mkdir -p "$output_dir"
-
+### same settings as with the previous somatic callers ###
 # Process each BAM file in the directory
 for bam_file in "$input_bam_dir"/*.bam; do
     # Extract base name without extension
@@ -37,7 +37,7 @@ for bam_file in "$input_bam_dir"/*.bam; do
         --out-dir "$severus_sample_dir" \
         -t 16 \
         --min-support 2 \
-        --vaf-thr 0.02 \
+        --vaf-thr 0.01 \
         --min-mapq 10 \
         --min-sv-size 20 \
         --bp-cluster-size 100 \
