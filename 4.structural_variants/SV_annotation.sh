@@ -32,7 +32,7 @@ severus="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus/severus_somatic_
 severus_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus/severus_somatic_breakpoints_double.annotated.vcf"
 severus_repeats="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus/severus_somatic_breakpoints_double.annotated.repeats.vcf"
 ### sawfish germline also processed ###
-sawfish_germline="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.norm.sv.vcf.gz"
+sawfish_germline="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.norm.sort.sv.vcf.gz"
 sawfish_germline_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.annotated.norm.sv.vcf.gz"
 sawfish_germline_repeats="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.annotated.repeats.norm.sv.vcf.gz"
 ### files to use for annotation ###
