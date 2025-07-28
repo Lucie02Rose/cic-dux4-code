@@ -1,4 +1,5 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -n 64
 #BSUB -M 120000
 #BSUB -R 'span[hosts=1] select[mem>120000] rusage[mem=120000]'
