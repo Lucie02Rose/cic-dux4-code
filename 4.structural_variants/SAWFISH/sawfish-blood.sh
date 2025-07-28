@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #BSUB -n 16
 #BSUB -M 64000
 #BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
