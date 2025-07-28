@@ -1,8 +1,8 @@
 #!/bin/bash
 ### job specifications for the LSF ###
 #BSUB -n 16
-#BSUB -M 32000
-#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
+#BSUB -M 6000
+#BSUB -R 'span[hosts=1] select[mem>6000] rusage[mem=6000]'
 #BSUB -q long
 #BSUB -J methylation
 #BSUB -G team274
