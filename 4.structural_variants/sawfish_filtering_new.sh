@@ -14,7 +14,7 @@ conda activate bioinfo
 ### Directories to process
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish"
 tumor_all="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_4_hifi_reads_pbmm2_joint_call/genotyped.sv.vcf.gz"
-blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/1C01_blood_hifi_reads_pbmm2_joint_call/genotyped.sv.vcf.gz"
+blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/blood_1C01_hifi_reads_pbmm2_joint_call/genotyped.sv.vcf.gz"
 gff3_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3.gz"
 gff3="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3"
 bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.bed"
