@@ -13,12 +13,14 @@
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate bioinfo
 
-### define all the directories - before running this script I ensure that I have all the output samples named 
-### how I want them in the correct directories - this means that I have moverd them to the respective directories here
+### define all the directories - before running this script I ensure that I have all the output samples named ###
+### how I want them in the correct directories - this means that I have moverd them to the respective directories here ###
 ### which is vital for this step to work ###
-nanomon_un="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.vcf"
-nanomon="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annotated.vcf"
-nanomon_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annrepeats.vcf"
+### this is also provided that sawfish filtering was carried out ###
+### if there are any problems with these steps, they can be fixed by consulting the output and error files and using bcftools to sanitize variants ###
+nanomon="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.sorted.vcf"
+nanomon_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annotated.vcf"
+nanomon_repeats="/lustre/scratch126/cellgen/behjati/lr26/PacBio-nanomonsv/tumor-all.nanomonsv.result.annotated.repeats.vcf"
 sawfish="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic-new/sawfish-somatic.annotated.vcf"
 sawfish_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic-new/sawfish-somatic.annrepeats.vcf"
 savana="/lustre/scratch126/cellgen/behjati/lr26/PacBio-savana-new/savana.somatic.annotated.vcf"
@@ -46,9 +48,7 @@ $3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
 bgzip -c "$bed" > "${bed}.gz"
 tabix -p bed "${bed}.gz"
 
-
-#bcftools sort "$nanomon_un" -o "$nanomon"
-
+### annotation steps for all the outputs ###
 bcftools annotate \
   -a "$repeats" \
   -c CHROM,FROM,TO,INFO/repeats \
