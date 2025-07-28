@@ -6,8 +6,8 @@
 #BSUB -q normal
 #BSUB -J bam2fastq_job
 #BSUB -G team274
-#BSUB -o /nfs/users/nfs_l/lr26/outputs/bamfastq-%J.o
-#BSUB -e /nfs/users/nfs_l/lr26/errors/bamfastq-%J.e
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/bamfastq-%J.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/bamfastq-%J.e
 
 ### activate the conda environment with the basm2fastq in it ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
