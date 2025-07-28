@@ -17,3 +17,5 @@ There are a couple of caveats connected to pipelining here:
 7) bcftools annotation can only do one file at a time so first, annotation with the RefSeq and then with RepeatMasker is carried out for each of the vcf file
 8) For the ease of running downstream filtering, I have moved all the bcftools annotation output files to one folder called base_dir = "/lustre/scratch125/cellgen/behjati/lr26/SV/" in the downstream Python variant_callers_filtering.ipynb script
 9) Then, all the other filtering functions apart from the helper for Severus conversion to vcf can be run as downstream analysis - in the variant_callers_filtering.ipynb script
+
+All the outputs of the variant_callers_filtering.ipynb are included as .csv files or alternatively .xlsx files in the respective directories. Consensus calls are for INS, DEL, BND are also included.
