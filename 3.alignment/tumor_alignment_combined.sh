@@ -29,12 +29,12 @@ tmp_dir="/lustre/scratch126/cellgen/behjati/lr26/tmp"
 cat "$input_fastq1" "$input_fastq2" "$input_fastq3" "$input_fastq4" > "$combined_fastq"
 
 ### create the temporary and output directories if not already present ###
-mkdir -p "$tmp_dir" "$output_dir"
+mkdir -p "$tmp_dir" "$output_dir" "$output_dir_hg38"
 
 ### define the output bam file name ###
 base_name=$(basename "$combined_fastq" .fastq.gz)
-output_bam="$output_dir/${base_name}_pbmm2.bam"
-output_bam_hg38="$output_dir_hg38/${base_name}_pbmm2.bam"
+output_bam="$output_dir/${base_name}.bam"
+output_bam_hg38="$output_dir_hg38/${base_name}.bam"
 #### temporary directory for sorting (export) ###
 export TMPDIR="$tmp_dir"
 
