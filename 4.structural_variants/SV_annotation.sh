@@ -1,13 +1,13 @@
 #!/bin/bash
 ### parameters for the LSF job ###
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-svfilt.o
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-svfilt.e
 #BSUB -n 12
 #BSUB -M 32000
 #BSUB -R 'span [hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
-#BSUB -J svfilt
+#BSUB -J svannot
 #BSUB -G team274
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-svannot.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-svannot.e
 
 ### activate the conda envrionment with bcftools, samtools etc ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
