@@ -4,7 +4,7 @@
 #BSUB -M 150000
 #BSUB -R 'span[hosts=1] select[mem>150000] rusage[mem=150000]'
 #BSUB -q hugemem
-#BSUB -J hifitum
+#BSUB -J hifiblood
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-blooddenovo.out
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-blooddenovo.err
