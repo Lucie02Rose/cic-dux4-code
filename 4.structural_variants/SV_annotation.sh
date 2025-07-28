@@ -31,6 +31,10 @@ savana_repeats="/lustre/scratch126/cellgen/behjati/lr26/PacBio-savana/savana.som
 severus="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus/severus_somatic_breakpoints_double.vcf"
 severus_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus/severus_somatic_breakpoints_double.annotated.vcf"
 severus_repeats="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus/severus_somatic_breakpoints_double.annotated.repeats.vcf"
+### sawfish germline also processed ###
+sawfish_germline="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.norm.sv.vcf.gz"
+sawfish_germline_annot="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.annotated.norm.sv.vcf.gz"
+sawfish_germline_repeats="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish/tumor_all_genotyped.annotated.repeats.norm.sv.vcf.gz"
 ### files to use for annotation ###
 repeats="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RepeatMasker_4.1.2p1.2022Apr14.bed"
 gff3_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3.gz"
@@ -132,3 +136,23 @@ bcftools annotate \
   -o "$sawfish_repeats" \
   -O z \
   "$sawfish_annot"
+
+### sawfish germline ###
+### bed file genic elements ###
+echo "Annotating sawfish"
+bcftools annotate \
+  -a "$bed" \
+  -c CHROM,FROM,TO,INFO/genes \
+  -h <(echo '##INFO=<ID=genes,Number=1,Type=String,Description="Genes from T2T annotation">') \
+  -o "$sawfish_germline_annot" \
+  -O z \
+  "$sawfish_germline"
+### bed file repeat masker ###
+bcftools annotate \
+  -a "$repeats" \
+  -c CHROM,FROM,TO,INFO/repeats \
+  -h <(echo '##INFO=<ID=repeats,Number=1,Type=String,Description="Repeats from T2T annotation">') \
+  -o "$sawfish_germline_repeats" \
+  -O z \
+  "$sawfish_germline_annot"
+
