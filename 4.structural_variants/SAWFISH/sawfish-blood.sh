@@ -6,15 +6,15 @@
 #BSUB -q normal
 #BSUB -J sawfish
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-sawfish.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-sawfish.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-sawfish-blood.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-sawfish-blood.err
 
 ### activate the sawfish conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate sawfish
 ### define the reference, input and output ###
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
-bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/1C01/blood_1C01_hifi_reads_pbmm2.bam"
+bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/blood_1C01_hifi_reads_pbmm2.bam"
 output_vcf_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish"
 
 ### extract the sample name from the file ###
