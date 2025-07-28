@@ -12,7 +12,14 @@
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
 conda activate sawfish || { echo "Failed to activate Conda environment"; exit 1; }
 
-reference="/lustre/scratch126/casm/team274sb/lr26/hg38/genome.fa"
+#### directories including temporary for sorting ###
+input_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38"
+tmp_dir="$output_dir/tmp"
+reference_fasta="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
+reference_index="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.mmi"
+
+reference="/lustre/scratch126/casm/team274sb/lr26/hg38/hg38.fa"
 bam_file="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-hg38/tumor-all_pbmm2-farm22.bam"
 output_vcf_dir="/lustre/scratch126/casm/team274sb/lr26/sawfishhg38tumor"
 
