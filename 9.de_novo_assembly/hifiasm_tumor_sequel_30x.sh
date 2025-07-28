@@ -1,8 +1,8 @@
 #!/bin/bash
 ### parameters for the LSF job ###
 #BSUB -n 64
-#BSUB -M 100000
-#BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
+#BSUB -M 120000
+#BSUB -R 'span[hosts=1] select[mem>120000] rusage[mem=120000]'
 #BSUB -q long
 #BSUB -J sequel_hifiasm
 #BSUB -G team274
