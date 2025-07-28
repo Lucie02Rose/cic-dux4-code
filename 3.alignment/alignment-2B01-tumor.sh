@@ -6,8 +6,8 @@
 #BSUB -q long
 #BSUB -J 2B01
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-1A01.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-1A01.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-2B01.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-2B01.err
 
 ### activate the base conda environment with pbmm2 ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
