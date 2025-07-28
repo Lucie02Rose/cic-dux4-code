@@ -4,10 +4,10 @@
 #BSUB -M 32000
 #BSUB -R 'span [hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q normal
-#BUSB -J indexing
+#BUSB -J indexing-t2t
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-index.o
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-index.e
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-index-t2t.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-index-t2t.e
 
 ### activate my conda environment - base has pbmm2 ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
