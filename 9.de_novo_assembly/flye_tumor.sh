@@ -14,7 +14,7 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate flye_env
 
 ### define the input, output ###
-input_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_all_4_hifi_reads.fastq"
+input_fastq="/lustre/scratch126/cellgen/behjati/lr26/PacBio-fastq/tumor_all_4_hifi_reads.fastq.gz"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/Flye"
 tmp_dir="/lustre/scratch126/cellgen/behjati/lr26/Flye/tmp"
 
