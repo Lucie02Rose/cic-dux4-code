@@ -15,34 +15,25 @@ conda activate severus_env
 
 ### define the input, output and reference ###
 reference="/lustre/scratch126/cellgen/behjati/lr26/hg38/hg38.fa"
-input_bam_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-tumor_all_4_hifi_reads"
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus-hg38"
+input_bam="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned-hg38/tumor_all_4_hifi_reads.bam"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-severus-hg38-tumor"
 ### create the output directory ###
 mkdir -p "$output_dir"
 ### same settings as with the previous somatic callers ###
-# Process each BAM file in the directory
-for bam_file in "$input_bam_dir"/*.bam; do
-    # Extract base name without extension
-    base_name=$(basename "$bam_file" .bam)
-    
-    # Define Severus output directory for this sample
-    severus_sample_dir="$output_dir/${base_name}-severus"
-    
-    # Create output directory for the sample
-    mkdir -p "$severus_sample_dir"
-
-    echo "Running Severus for $base_name..."
-
-    severus --target-bam "$bam_file" \
-        --out-dir "$severus_sample_dir" \
-        -t 16 \
-        --min-support 2 \
-        --vaf-thr 0.01 \
-        --min-mapq 10 \
-        --min-sv-size 20 \
-        --bp-cluster-size 100 \
-        --output-read-ids \
-        --single-bp
-
-    echo "Severus SV calling completed for $base_name. Results in $severus_sample_dir"
-done
+### extract the sample base name ###
+base_name=$(basename "$input_bam" .bam)
+### print statement ###
+echo "Running Severus for $base_name..."
+### severus settings same as for all others ###
+severus --target-bam "$input_bam" \
+    --out-dir "$output_dir" \
+    -t 16 \
+    --min-support 2 \
+    --vaf-thr 0.01 \
+    --min-mapq 10 \
+    --min-sv-size 20 \
+    --bp-cluster-size 100 \
+    --output-read-ids \
+    --single-bp
+### print statement ###
+echo "Severus SV calling completed for $base_name. Results in $output_dir"
