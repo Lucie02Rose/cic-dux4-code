@@ -40,6 +40,7 @@ bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.b
 ### convert the gff3 to the bed format for annotation, provided it is sorted by chromosome, extract what is needed ###
 ### and directly sort the bed file by chromosome ###
 ### repeat annotation from repeat masker does not really need annotation ###
+echo "Converting gff3 file to a bed file "
 zcat "$gff3_gz" | awk -F'\t' '
 $3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
     id = "."  # default
@@ -51,12 +52,14 @@ $3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
     print $1, $4 - 1, $5, id, ".", $7
 }' OFS='\t' | sort -k1,1 -k2,2n > "$bed"
 ### zip and index the bed file to use for annotation ###
+echo "Indexing the bed file (optional)"
 bgzip -c "$bed" > "${bed}.gz"
 tabix -p bed "${bed}.gz"
 
 ### annotation steps for all the outputs ###
 ### nanomonsv ###
 ### bed file genic elements ###
+echo "Annotating nanomonsv"
 bcftools annotate \
   -a "$bed" \
   -c CHROM,FROM,TO,INFO/genes \
@@ -75,6 +78,7 @@ bcftools annotate \
   
 ### savana ###
 ### bed file genic elements ###
+echo "Annotating savana"
 bcftools annotate \
   -a "$bed" \
   -c CHROM,FROM,TO,INFO/genes \
@@ -93,6 +97,7 @@ bcftools annotate \
   
 ### severus ###
 ### bed file genic elements ###
+echo "Annotating severus"
 bcftools annotate \
   -a "$bed" \
   -c CHROM,FROM,TO,INFO/genes \
@@ -111,6 +116,7 @@ bcftools annotate \
   
 ### sawfish ###
 ### bed file genic elements ###
+echo "Annotating sawfish"
 bcftools annotate \
   -a "$bed" \
   -c CHROM,FROM,TO,INFO/genes \
