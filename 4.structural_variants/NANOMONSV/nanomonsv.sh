@@ -1,9 +1,9 @@
 #!/bin/bash
 ### prameters for the LSF job ###
 #BSUB -n 32
-#BSUB -M 200000
-#BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
-#BSUB -q hugemem
+#BSUB -M 100000
+#BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
+#BSUB -q long
 #BSUB -J pbmm2-nanomonsv-match
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-nanomon.out
