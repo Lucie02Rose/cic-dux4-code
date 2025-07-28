@@ -4,7 +4,7 @@
 #BSUB -M 32000
 #BSUB -R 'span [hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q normal
-#BUSB -J indexing-t2t
+#BSUB -J indexing-t2t
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-index-t2t.o
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-index-t2t.e
