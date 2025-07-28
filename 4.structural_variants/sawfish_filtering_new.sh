@@ -12,7 +12,7 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate bioinfo
 
 ### Directories to process
-output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic-new"
+output_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish"
 tumor_all="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-tumor-all/tumor_all_4_hifi_reads_pbmm2_joint_call/genotyped.sv.vcf.gz"
 blood="/lustre/scratch126/cellgen/behjati/lr26/genotyped.sv.vcf.gz"
 gff3_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.gff3.gz"
@@ -21,25 +21,22 @@ bed="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RefSeq_Liftoff_v5.2.b
 tumor="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic/tumor_somatic_annotated.vcf"
 tumor_2="/lustre/scratch126/cellgen/behjati/lr26/PacBio-sawfish-somatic/tumor_somatic_annotated_2.vcf"
 
-# decompress
-#gunzip -c "$gff3_gz" > "$gff3"
-
-# convert GFF3 to BED
-#zcat "$gff3_gz" | awk -F'\t' '
-#$3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
- #   id = "."  # default
-  #  if (match($9, /gene_name=([^;]+)/, a)) {
-   #     id = a[1]
-   # } else if (match($9, /ID=([^;]+)/, a)) {
-   #     id = a[1]
-   # }
-   # print $1, $4 - 1, $5, id, ".", $7
-#}' OFS='\t' > "$bed"
-
-#bgzip -c "$bed" > "${bed}.gz"
-#tabix -p bed "${bed}.gz"
-
-mkdir -p "$output_dir"
+### convert the gff3 to the bed format for annotation, provided it is sorted by chromosome, extract what is needed ###
+### and directly sort the bed file by chromosome ###
+zcat "$gff3_gz" | awk -F'\t' '
+$3 ~ /^(gene|transcript|exon|CDS|five_prime_UTR|three_prime_UTR)$/ {
+    id = "."  # default
+    if (match($9, /gene_name=([^;]+)/, a)) {
+        id = a[1]
+    } else if (match($9, /ID=([^;]+)/, a)) {
+        id = a[1]
+    }
+    print $1, $4 - 1, $5, id, ".", $7
+}' OFS='\t' | sort -k1,1 -k2,2n > "$bed"
+### zip and index the bed file to use for annotation ###
+bgzip -c "$bed" > "${bed}.gz"
+tabix -p bed "${bed}.gz"
+### change to the output directory 
 cd "$output_dir"
 
 bcftools norm -m -any -Oz -o tumor_all_genotyped.norm.sv.vcf.gz "$tumor_all"
