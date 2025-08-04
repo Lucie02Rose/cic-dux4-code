@@ -20,10 +20,10 @@ blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-blood/blood.bp.p_ctg.fasta
 revio="/lustre/scratch126/cellgen/behjati/lr26/PacBio-revio/PacBio-revio.bp.p_ctg.fasta"
 
 ### fasta files with regions of interest ###
-dux="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux4_intron2.fasta"
-rpl="/lustre/scratch126/casm/team274sb/lr26/Dux_searchh/rpl23.fasta"
-plam="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux4_plam_pa_beta_sat.fasta"
-dux_rpl="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux_rpl.fasta"
+dux="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/dux4_intron2.fasta"
+rpl="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/rpl23.fasta"
+plam="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/dux4_plam_pa_beta_sat.fasta"
+dux_rpl="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/dux_rpl.fasta"
 
 ### search for these in the hifi contigs ###
 ### sort results by bit score ###
