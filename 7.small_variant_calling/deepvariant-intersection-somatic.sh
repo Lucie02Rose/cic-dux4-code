@@ -3,16 +3,16 @@
 #BSUB -M 100000
 #BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
 #BSUB -q basement
-#BSUB -J pepper-mom
+#BSUB -J deepvariant
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/pepper-intersec.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/pepper-intersec.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-deepvar-intersec.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-deepvar-intersec.err
 
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate bioinfo
 
 # Define pathways
-mom_vcf="/lustre/scratch126/casm/team274sb/lr26/pepper-mom/mom_output.vcf.gz"
+mom_vcf="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvatiant--mom/mom_output.vcf.gz"
 blood_vcf="/lustre/scratch126/casm/team274sb/lr26/pepper-blood/blood_output.vcf.gz"
 tumor_vcf="/lustre/scratch126/casm/team274sb/lr26/pepper-tumor1B01/tumor_output.vcf.gz"
 mom_norm="/lustre/scratch126/casm/team274sb/lr26/pepper-mom/mom_output_norm.vcf.gz"
