@@ -16,11 +16,12 @@ conda activate hificnv
 ### define directories and files to analyse ###
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 bam_file="/lustre/scratch126/cellgen/behjati/lr26/PacBio-aligned/tumor_all_4_hifi_reads_pbmm2.bam"
-output_vcf_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-hificnv-tumor-all"
+output_vcf_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-hificnv"
 
 ### make the output directory and change there (multithreaded} ###
 mkdir -p "$output_vcf_dir"
 cd "$output_vcf_dir"
+
 ### run hificnv ###
 hificnv \
     --bam "$bam_file" \
