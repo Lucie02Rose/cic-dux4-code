@@ -6,8 +6,8 @@
 #BSUB -q long
 #BSUB -J cnv-pacbio
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-cnv-pacbio.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-cnv-pacbio.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-cnv-pacbio-tumor.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-cnv-pacbio-tumor.err
 
 ### activate the environment with latest bcftools ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
