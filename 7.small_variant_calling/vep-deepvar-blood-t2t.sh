@@ -29,14 +29,14 @@ cd "$output_dir"
 
 ### run vep with custom ClinVar and dbSNP liftover annotations ###
 vep \
-  --input_file "$input_vcf" \
+  --i "$input_vcf" \
   --fasta "$reference" \
   --gff "$gff" \
   --species homo_sapiens \
   --assembly T2T-CHM13v2.0 \
   --custom "$clinvar",ClinVar,vcf,overlap,0,CLNSIG \
   --custom "$dbsnp",dbSNP,vcf,exact,0,ID \
-  --output_file "$output_dir/blood_vep_annotated_with_clinvar_and_dbsnp_vcf_new.vcf" \
+  --o "$output_dir/blood_vep_annotated_with_clinvar_and_dbsnp_vcf_new.vcf" \
   --vcf \
   --force_overwrite
 
