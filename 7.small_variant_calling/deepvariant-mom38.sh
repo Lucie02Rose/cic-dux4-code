@@ -6,8 +6,8 @@
 #BSUB -q long
 #BSUB -J dmp
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-deepvar-mom.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-deepvar-mom.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-deepvar-mom-hg38.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-deepvar-mom-hg38.err
 ### note that this script was used pre-farmageddon (hence casm/team274sb)
 
 ### load teh farm singulatiry module ###
