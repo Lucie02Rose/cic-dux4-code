@@ -1,48 +1,57 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -n 16
-#BSUB -M 100000
-#BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
+#BSUB -M 32000
+#BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
 #BSUB -J blast
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-sc-blat.out
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-sc-blat.err
-# Define paths
-BLAT_EXEC="/nfs/users/nfs_l/lr26/blat"   # Update if BLAT is elsewhere
-GENOME_FILE="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"  # Genome reference
-FASTA_DIR="/lustre/scratch126/cellgen/behjati/lr26/snRNA/"  # FASTA input files directory
-OUTPUT_FILE="/lustre/scratch126/cellgen/behjati/lr26/snRNA/blat_top5-parallel.csv"  # Final output file
-TEMP_DIR="/lustre/scratch126/cellgen/behjati/lr26/snRNA/temp"  # Use RAM for temporary processing
 
-# Ensure temp directory exists
+### define directories ###
+BLAT_EXEC="/nfs/users/nfs_l/lr26/blat"
+GENOME_FILE="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
+FASTA_DIR="/lustre/scratch126/cellgen/behjati/lr26/snRNA/"
+OUTPUT_FILE="/lustre/scratch126/cellgen/behjati/lr26/snRNA/blat_top5-parallel.csv"
+TEMP_DIR="/lustre/scratch126/cellgen/behjati/lr26/snRNA/temp"
+
+### make the temporary directory ###
 mkdir -p "$TEMP_DIR"
+
+### change to home ###
 cd /nfs/users/nfs_l/lr26/
-# Create/clear the output file and add CSV header
+
+### create output file header ###
 echo "Sequence,Matches,MisMatches,RepMatches,nCount,qNumInsert,qBaseInsert,tNumInsert,tBaseInsert,strand,qName,qSize,qStart,qEnd,tName,tSize,tStart,tEnd,blockCount,blockSizes,qStarts,tStarts" > "$OUTPUT_FILE"
 
-# Function to run BLAT for a single FASTA file
+### run blat on a single sequence creating a psl file ###
 run_blat() {
-    fasta_file="$1"
-    sequence_name=$(basename "$fasta_file" .fasta)  # Extract file name
-
-    # Run BLAT and store PSL output in RAM
-    "$BLAT_EXEC" "$GENOME_FILE" "$fasta_file" "$TEMP_DIR/output_${sequence_name}.psl" -out=psl -minIdentity=70
-
-    # Process PSL output: Remove header, sort by matches, get top 5, store in memory
-    results=""
-    while IFS=$'\t' read -r matches misMatches repMatches nCount qNumInsert qBaseInsert tNumInsert tBaseInsert strand qName qSize qStart qEnd tName tSize tStart tEnd blockCount blockSizes qStarts tStarts; do
-        results+="$sequence_name,$matches,$misMatches,$repMatches,$nCount,$qNumInsert,$qBaseInsert,$tNumInsert,$tBaseInsert,$strand,$qName,$qSize,$qStart,$qEnd,$tName,$tSize,$tStart,$tEnd,$blockCount,$blockSizes,$qStarts,$tStarts"$'\n'
-    done < <(tail -n +6 "$TEMP_DIR/output_${sequence_name}.psl" | LC_ALL=C sort -k1,1nr | head -5)
-
-    # Append results to final CSV file
-    echo -n "$results" >> "$OUTPUT_FILE"
-
-    # Cleanup
-    rm -f "$TEMP_DIR/output_${sequence_name}.psl"
+    single_fasta="$1"
+    sequence_name=$(basename "$single_fasta" .fasta)
+    psl_file="$TEMP_DIR/output_${sequence_name}.psl"
+    ### Run BLAT on each of the sequences ###
+    "$BLAT_EXEC" "$GENOME_FILE" "$single_fasta" "$psl_file" -out=psl -minIdentity=70
+    ### process the psl to extract top 5 hits per sequence ###
+    tail -n +6 "$psl_file" | LC_ALL=C sort -k10,10 -k1,1nr | \
+    awk -F'\t' '{
+        count[$10]++
+        if (count[$10] <= 5) print
+    }' | while IFS=$'\t' read -r matches misMatches repMatches nCount qNumInsert qBaseInsert tNumInsert tBaseInsert strand qName qSize qStart qEnd tName tSize tStart tEnd blockCount blockSizes qStarts tStarts; do
+        echo "$sequence_name,$matches,$misMatches,$repMatches,$nCount,$qNumInsert,$qBaseInsert,$tNumInsert,$tBaseInsert,$strand,$qName,$qSize,$qStart,$qEnd,$tName,$tSize,$tStart,$tEnd,$blockCount,$blockSizes,$qStarts,$tStarts" >> "$OUTPUT_FILE"
+    done
 }
 
-# Process each FASTA file sequentially
+### then loop over each of the fastas in the directory ###
 for fasta_file in "$FASTA_DIR"/*.fasta; do
-    run_blat "$fasta_file"
+    file_prefix=$(basename "$fasta_file" .fasta)
+    ### split into single-sequence fasta files ###
+    csplit -z -f "$TEMP_DIR/${file_prefix}_" -b "%03d.fasta" "$fasta_file" '/^>/' '{*}' > /dev/null
+    ### process each sequence individually ###
+    for seq_fasta in "$TEMP_DIR/${file_prefix}_"*.fasta; do
+        run_blat "$seq_fasta"
+        rm -f "$seq_fasta"
+    done
 done
+
 rm -rf "$TEMP_DIR"
