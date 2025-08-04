@@ -6,8 +6,8 @@
 #BSUB -q normal
 #BSUB -J cnv
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-hificnv.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-hificnv.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-hificnv-tumor.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-hificnv-tumor.err
 
 ### activate the conda hificnv environment ###
 source /software/cellgen/team274/lr26/miniforge3/etc/profile.d/conda.sh
