@@ -36,9 +36,7 @@ vep \
   --assembly T2T-CHM13v2.0 \
   --custom "$clinvar",ClinVar,vcf,overlap,0,CLNSIG \
   --custom "$dbsnp",dbSNP,vcf,exact,0,ID \
-  -o "$output_dir/mom_vep_annotated_clinvar_dbsnp.vcf" \
+  --o "$output_dir/mom_vep_annotated_with_clinvar_and_dbsnp_vcf_new.vcf" \
   --vcf \
   --force_overwrite
-
-
 
