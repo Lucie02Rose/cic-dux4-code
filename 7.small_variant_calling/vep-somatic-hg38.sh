@@ -14,7 +14,7 @@ export PATH=$PATH:/nfs/users/nfs_l/lr26/ensembl-vep
 # Define pathways
 vep="/nfs/users/nfs_l/lr26/ensembl-vep"
 reference="/lustre/scratch126/casm/team274sb/lr26/hg38/genome.fa"
-input_vcf="/lustre/scratch126/casm/team274sb/lr26/pepper-tumor38/tumor_somatic_hg38.vcf.gz"
+input_vcf="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/isec_tumor_cosmic_somatic/0000.vcf"
 dbsnp="/lustre/scratch126/casm/team274sb/lr26/hg38/Homo_sapiens_assembly38.dbsnp138.vcf.gz"
 cosmic="/lustre/scratch126/casm/team274sb/lr26/hg38/cleaned_cosmic_hg38.vcf.gz"
 gff="/lustre/scratch126/casm/team274sb/lr26/hg38/gencode.sorted.gff3.gz"
