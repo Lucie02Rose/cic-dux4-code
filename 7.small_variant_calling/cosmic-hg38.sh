@@ -20,36 +20,33 @@ mom="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-mom-hg38/mom_outp
 blood="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-blood-hg38/blood_output.vcf.gz"
 tumor="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/tumor_output.vcf.gz"
 dir="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38"
+somatic_tumor="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/isec_tumor_cosmic_somatic/0000.vcf"
 
+### change to the tumor directory ###
 cd "$dir"
 
+### normalise all the vcf files using the reference genome (with decoys, same used for deepvariant calling) ###
 bcftools norm -f "$reference" -Oz -o normalized_tumor_output.vcf.gz "$tumor"
 bcftools norm -f "$reference" -Oz -o normalized_blood_output.vcf.gz "$blood"
 bcftools norm -f "$reference" -Oz -o normalized_mom_output.vcf.gz "$mom"
 bcftools norm -f "$reference" -Oz -o normalized_cosmic_hg38.vcf.gz "$cosmic"
 
+### index all normalised vcf files ###
 tabix -p vcf normalized_tumor_output.vcf.gz
 tabix -p vcf normalized_blood_output.vcf.gz
 tabix -p vcf normalized_mom_output.vcf.gz
 tabix -p vcf normalized_cosmic_hg38.vcf.gz
 
-bcftools isec -p isec_tumor_germline -C normalized_tumor_output.vcf.gz normalized_blood_output.vcf.gz normalized_mom_output.vcf.gz
-bcftools isec -p isec_blood_mom_somatic -n=2 normalized_blood_output.vcf.gz normalized_mom_output.vcf.gz
+### use bcftools to find all the variants that are only in the tumor file (somatic) ###
+bcftools isec -p isec_tumor_cosmic_somatic -n=2 normalized_blood_output.vcf.gz normalized_mom_output.vcf.gz
 
+### use bcftools annotate to annotate this file 
 bcftools annotate \
     -a "$cosmic" \
     -c CHROM,POS,INFO \
-    -o annotated_tumor_somatic_new38.vcf.gz \
+    -o annotated_tumor_somatic_cosmic_new38.vcf.gz \
     -O z \
-    tumor_somatic_hg38.vcf.gz
-
-bcftools annotate \
-    -a "$cosmic" \
-    -c CHROM,POS,INFO \
-    -o annotated_shared_germline_new38.vcf.gz \
-    -O z \
-    blood_mom_somatic_hg38.vcf.gz
-
+    "$somatic_tumor"
 
 
 
