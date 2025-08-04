@@ -4,7 +4,7 @@
 #BSUB -M 100000
 #BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
 #BSUB -q basement
-#BSUB -J pepper-blood
+#BSUB -J vep-blood
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-vep-blood.out
 #BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-vep-blood.err
