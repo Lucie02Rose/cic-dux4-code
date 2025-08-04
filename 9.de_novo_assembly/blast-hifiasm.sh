@@ -1,22 +1,24 @@
 #!/bin/bash
+### parameters fort he LSF job ###
 #BSUB -n 8
 #BSUB -M 50000
 #BSUB -R 'span[hosts=1] select[mem>50000] rusage[mem=50000]'
 #BSUB -q yesterday
 #BSUB -J blast
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/duxblastgiab.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/duxblastgiab.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-duxblastgiab.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-duxblastgiab.err
 
-### Activate conda environment
+### activate the conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 # Define paths
-dir="/lustre/scratch126/casm/team274sb/lr26/dux_search"
-mom="/lustre/scratch126/casm/team274sb/lr26/hifiasm_mom_denovo/mom_denovo_hifiasm.bp.p_ctg.fasta"
-blood="/lustre/scratch126/casm/team274sb/lr26/hifiasm_blood_denovo/blood_denovo_hifiasm.bp.p_ctg.fasta"
-tumor="/lustre/scratch126/casm/team274sb/lr26/hifiasm_tumor_denovo/tumor_denovo_hifiasm.bp.p_ctg.fasta"
+dir="/lustre/scratch126/cellgen/behjati/lr26/Dux_search"
+mom="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom/mom.bp.p_ctg.fasta"
+blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-blood/blood_denovo_hifiasm.bp.p_ctg.fasta"
+revio="/lustre/scratch126/cellgen/behjati/lr26/PacBio-revio/tumor_denovo_hifiasm.bp.p_ctg.fasta"
+
 hg002="/lustre/scratch126/casm/team274sb/lr26/pbmm2-giab-revio/HG002_new.bp.p_ctg.fasta"
 hg003="/lustre/scratch126/casm/team274sb/lr26/pbmm2-giab-revio/HG003_new.bp.p_ctg.fasta"
 hg004="/lustre/scratch126/casm/team274sb/lr26/pbmm2-giab-revio/HG004_new.bp.p_ctg.fasta"
