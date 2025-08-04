@@ -8,7 +8,7 @@
 #BSUB -G team274
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-sc-blat.out
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-sc-blat.err
-
+### run this script after sc_fusions.ipynb and before snRNA-final.ipynb ###
 ### define directories ###
 BLAT_EXEC="/nfs/users/nfs_l/lr26/blat"
 GENOME_FILE="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
