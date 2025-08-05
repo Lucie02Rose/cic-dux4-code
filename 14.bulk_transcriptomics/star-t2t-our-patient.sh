@@ -1,16 +1,17 @@
 #!/bin/bash
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-rna-our.o
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-rna-our.e
+### parameters for the lsf job ###
 #BSUB -n 16
 #BSUB -M 100000
 #BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
 #BSUB -q basement
-#BSUB -J rna-t2t
+#BSUB -J star-our
 #BSUB -G team274
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-star-our.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-star-our.e
 
-### Activate conda environment
+### activate conda environment
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
-conda activate bioinfo
+conda activate base
 
 ### Directories to process
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA"
