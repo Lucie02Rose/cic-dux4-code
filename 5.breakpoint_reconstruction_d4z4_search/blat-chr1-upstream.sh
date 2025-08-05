@@ -3,10 +3,10 @@
 #BSUB -M 100000
 #BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
 #BSUB -q long
-#BSUB -J blat-chr1
+#BSUB -J blat-chr1-up
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-chr1blat.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-chr1blat.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-chr1blat-up.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-chr1blat-up.err
 
 ### this is an optional script for the BLAT seach of the breakpoints of interest around the chr1 region - upstream ###
 ### prior to this script, I have used functions in the pysam_sequence_blatting.ipynb to extract the soft clips from all breakpoints and turn them into fastas ###
