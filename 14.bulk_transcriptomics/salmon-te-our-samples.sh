@@ -1,33 +1,24 @@
 #!/bin/bash
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-salmon.o
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-salmon.e
 #BSUB -n 32
 #BSUB -M 32000
 #BSUB -R 'span [hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
-#BSUB -J pbmm2indexing
+#BSUB -J salmon-our
 #BSUB -G team274
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-salmon.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-salmon.e
 
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
-#conda activate bioinfo
+conda activate salmon
 
 ### Directories to process
 rna_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/GCF_009914755.1_T2T-CHM13v2.0_rna.fna.gz"
 rna="/lustre/scratch126/cellgen/behjati/lr26/T2T/refseq_transcripts.fa"
-repeats="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0_RepeatMasker_4.1.2p1.2022Apr14.bed"
-repeats_fa="/lustre/scratch126/cellgen/behjati/lr26/T2T/repeatmasker_te.fa"
-combined_transcripts="/lustre/scratch126/cellgen/behjati/lr26/T2T/combined_transcripts.fa"
-reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 input_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA"
 index="/lustre/scratch126/cellgen/behjati/lr26/T2T/salmon_T2T_index_te"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA/Salmon"
 
-#bedtools getfasta -fi "$reference" -bed "$repeats" -s -name > "$repeats_fa"
-#gunzip -c "$rna_gz" > "$rna"
-#cat "$rna" "$repeats_fa" > "$combined_transcripts"
-
-#conda deactivate
-conda activate salmon
+gunzip -c "$rna_gz" > "$rna"
 
 # Indexing the T2T reference genome (if index files don't exist)
 salmon index -t "$rna" -i "$index" --keepDuplicates
