@@ -20,7 +20,7 @@ reference="/lustre/scratch126/casm/team274sb/lr26/T2T/chm13v2.0.fa"
 roi_region="chr4:193541548-193563474"
 roi_fasta="chr4_dux_augustus.fasta"
 output_dir="/lustre/scratch126/casm/team274sb/lr26/population_dux"
-input_bam="/nfs/cancer_ref01/nst_links/live/2869/PD54859b/PD54859b.sample.dupmarked.bam"
+input_bam="/lustre/scratch126/casm/team274sb/lr26/population_dux/PD54859b/PD54859b.sample.dupmarked.bam"
 
 # Prepare workspace
 sample=$(basename "$input_bam" .bam)
