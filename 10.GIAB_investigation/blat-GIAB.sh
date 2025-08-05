@@ -6,24 +6,24 @@
 #BSUB -q yesterday
 #BSUB -J blast
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-duxblastgiab.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-duxblastgiab.err
+#BSUB -o /lustre/casm/team274sb/behjati/lr26/outputs/%J-duxblastgiab.out
+#BSUB -e /lustre/casm/team274sb/behjati/lr26/errors/%J-duxblastgiab.err
 
 ### activate the conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 ### define pathways to contigs ###
-dir="/lustre/scratch126/cellgen/behjati/lr26/Dux_search"
-mom="/lustre/scratch126/cellgen/behjati/lr26/PacBio-mom/mom.bp.p_ctg.fasta"
-blood="/lustre/scratch126/cellgen/behjati/lr26/PacBio-blood/blood.bp.p_ctg.fasta"
-revio="/lustre/scratch126/cellgen/behjati/lr26/PacBio-revio/PacBio-revio.bp.p_ctg.fasta"
+dir="/lustre/scratch126/casm/team274sb/lr26/Dux_search"
+mom="/lustre/scratch126/casm/team274sb/lr26/PacBio-mom/mom.bp.p_ctg.fasta"
+blood="/lustre/scratch126/casm/team274sb/lr26/PacBio-blood/blood.bp.p_ctg.fasta"
+revio="/lustre/scratch126/casm/team274sb/lr26/PacBio-revio/PacBio-revio.bp.p_ctg.fasta"
 
 ### fasta files with regions of interest ###
-dux="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/dux4_intron2.fasta"
-rpl="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/rpl23.fasta"
-plam="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/dux4_plam_pa_beta_sat.fasta"
-dux_rpl="/lustre/scratch126/cellgen/behjati/lr26/Dux_search/dux_rpl.fasta"
+dux="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux4_intron2.fasta"
+rpl="/lustre/scratch126/casm/team274sb/lr26/Dux_search/rpl23.fasta"
+plam="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux4_plam_pa_beta_sat.fasta"
+dux_rpl="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux_rpl.fasta"
 
 ### search for these in the hifi contigs ###
 ### sort results by bit score ###
