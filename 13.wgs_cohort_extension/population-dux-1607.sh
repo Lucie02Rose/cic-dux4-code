@@ -1,7 +1,7 @@
-# Base template
+### base of template script ###
 template_script="population-dux.sh"
 
-# List of orphan samples
+### list of all orphan tumor normal samples ###
 orphan_tumours=(
     'PD46693b' 'PD36158b' 'PD36166b' 'PD34956b' 'PD36157b' 'PD36161b' 'PD34278b'
     'PD31013b' 'PD36156b' 'PD31012b' 'PD34279b' 'PD36160b' 'PD34957b' 'PD34958b'
@@ -9,7 +9,7 @@ orphan_tumours=(
     'PD34956b' 'PD36160b' 'PD42727b'
 )
 
-# Generate a new script per sample
+### generate a new script using the sample ID for each replacing all instances of the PD54859b ###
 for sample in "${orphan_tumours[@]}"; do
     new_script="script_${sample}.sh"
 
