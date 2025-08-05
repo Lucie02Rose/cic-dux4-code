@@ -1,27 +1,29 @@
 #!/bin/bash
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-rna-star.o
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-rna-star.e
+### parameters fort he lsf job ###
 #BSUB -n 64
 #BSUB -M 600000
 #BSUB -R 'span[hosts=1] select[mem>600000] rusage[mem=600000]'
 #BSUB -q hugemem
 #BSUB -J rna-t2t-alignment
 #BSUB -G team274
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-rna-star.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-rna-star.e
 
-### Activate conda environment
+### activate the conda envrionment with star ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate star_env
 
-### Define directories
+### define reference, index input and output directories ###
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"
 input_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA/STAR-T2T"
 reference_index="/lustre/scratch126/cellgen/behjati/lr26/T2T/T2T_index"
 
+### make output and change to input ###
 mkdir -p "$output_dir"
 cd "$input_dir"
 
-# 1️⃣ Generate STAR genome index (only if it does not exist)
+### generate the star index depending on whether it exists or not ###
 if [ ! -f "$reference_index/Genome" ]; then
     echo "Generating STAR genome index..."
     STAR --runThreadN 16 \
@@ -32,10 +34,11 @@ else
     echo "STAR genome index already exists. Skipping index generation."
 fi
 
+### fuynction which takes care of alignment by sample ###
 run_star_alignment() {
     sample=$1
-
-    # Try both fastq and fastq.gz extensions
+    ### tries whether it is compressed or not ###
+    ### all external data were recieved as either compressed or regular fastq ###
     r1="$input_dir/${sample}_R1.fastq"
     r2="$input_dir/${sample}_R2.fastq"
     if [[ ! -f "$r1" ]]; then
@@ -44,11 +47,11 @@ run_star_alignment() {
     if [[ ! -f "$r2" ]]; then
         r2="$input_dir/${sample}_R2.fastq.gz"
     fi
-
+    ### setting of the sample prefix and bam naming ###
     output_prefix="$output_dir/${sample}_"
     unsorted_bam="${output_prefix}Aligned.out.bam"
     sorted_bam="${output_prefix}Aligned.sortedByCoord.bam"
-
+    
     if [[ -f "$r1" && -f "$r2" ]]; then
         echo "Running STAR for paired-end reads: $sample"
         STAR --runThreadN 16 \
