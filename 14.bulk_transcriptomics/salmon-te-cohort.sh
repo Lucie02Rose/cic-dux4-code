@@ -22,22 +22,20 @@ input_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA"
 index="/lustre/scratch126/cellgen/behjati/lr26/T2T/salmon_T2T_index_te"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA/Salmon"
 
+### handling and indexing reference ###
 gunzip -c "$rna_gz" > "$rna"
-
-# Indexing the T2T reference genome (if index files don't exist)
 salmon index -t "$rna" -i "$index" --keepDuplicates
 
-#mkdir -p "$output_dir"
+### making the output, changing to input ###
+mkdir -p "$output_dir"
 cd "$input_dir"
 
+### processing fastq or fastq.gz sequentially making sure all are paired ###
 for r1 in *_R1.fastq*; do
-    # Derive the corresponding R2 file
     r2="${r1/_R1.fastq/_R2.fastq}"
-    
-    # Extract sample name (handles .fastq and .fastq.gz)
+    ### extract sample name regardless of compression ###
     sample=$(basename "$r1" | sed -E 's/_R1\.fastq(.gz)?//')
-    
-    # Make sure R2 file exists
+    ### check if R2 is there and then run salmon quant ###
     if [[ -f "$r2" ]]; then
         salmon quant \
           -i "$index" \
@@ -48,6 +46,7 @@ for r1 in *_R1.fastq*; do
           --validateMappings \
           -o "$output_dir/quant_te${sample}"
     else
+        ### error handling ###
         echo "WARNING: No R2 file found for $r1. Skipping..."
     fi
 done
