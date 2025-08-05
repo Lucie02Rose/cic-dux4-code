@@ -51,7 +51,7 @@ run_star_alignment() {
     output_prefix="$output_dir/${sample}_"
     unsorted_bam="${output_prefix}Aligned.out.bam"
     sorted_bam="${output_prefix}Aligned.sortedByCoord.bam"
-    
+    ### running star with these settings ###
     if [[ -f "$r1" && -f "$r2" ]]; then
         echo "Running STAR for paired-end reads: $sample"
         STAR --runThreadN 16 \
@@ -63,40 +63,41 @@ run_star_alignment() {
              --chimSegmentMin 10 \
              --chimJunctionOverhangMin 20 \
              --chimOutType Junctions SeparateSAMold
-
+        ### sorting and indexing ###
         echo "Sorting BAM file for $sample..."
         samtools sort -@ 16 -o "$sorted_bam" "$unsorted_bam"
-
         echo "Indexing sorted BAM file for $sample..."
         samtools index "$sorted_bam"
-
+        ### removing unsorted ###
         rm "$unsorted_bam"
     else
+        ### error handling ###
         echo "ERROR: Missing FASTQ file(s) for sample $sample! Skipping..."
     fi
 }
 
-
-# Find all paired-end samples and process in parallel (limit to 16 concurrent jobs)
+### this part is used to parallelise it into 16 jobs at the same time ###
+### each one uses 4 cores ###
 for r1_file in "$input_dir"/*_R1.fastq*; do
-    # Determine the corresponding R2 filename
+    ### find corresponding files ###
     r2_file="${r1_file/_R1.fastq/_R2.fastq}"
-    r2_file="${r2_file/.gz/.gz}"  # ensures consistency if it's already gzipped
-
+    r2_file="${r2_file/.gz/.gz}"  ### be consistent with zipped ###
     if [[ -f "$r2_file" ]]; then
-        # Extract sample name (removes _R1.fastq or _R1.fastq.gz)
+        ### extract the sample name ###
         sample_name=$(basename "$r1_file" | sed -E 's/_R1\.fastq(.gz)?//')
+        ### call the function above to run in parallel ###
         run_star_alignment "$sample_name" &
     else
+        ### error handling ###
         echo "WARNING: No R2 file found for $(basename "$r1_file"). Skipping..."
     fi
 
-    # Limit concurrent jobs to 16
+    ### 16 jobs at a time and ensure everything is finished before starting another batch ###
     if (( $(jobs | wc -l) >= 16 )); then
         wait -n
     fi
 done
-wait  # Ensure all background jobs finish
+wait  ### only finish after all backgrounds are done ###
 
 
 echo "All STAR alignments, BAM sorting, and indexing completed successfully!"
