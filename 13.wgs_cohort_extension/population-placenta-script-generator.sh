@@ -1,7 +1,7 @@
-# Base template
+### base of template script ###
 template_script="population-dux.sh"
 
-# List of sarcoma_normal samples
+### list of all placenta normal samples ###
 placenta_samples=(
     "PD42135b" "PD42137b" "PD42139b" "PD42141b" "PD42147b" "PD42149b" "PD42150b" "PD42150b2" "PD42150b3" "PD42150b4" "PD42151b" "PD42153b"
     "PD42154b" "PD42154b2" "PD42154b3" "PD42154b4" "PD42155b" "PD42157b" "PD42158b" "PD42158b2" "PD42158b3" "PD42158b4" "PD42159b" "PD42161b"
@@ -20,7 +20,7 @@ placenta_samples=(
     "PD45689b" "PD45693b"
 )
 
-# Generate a new script per sample
+### generate a new script using the sample ID for each replacing all instances of the PD54859b ###
 for sample in "${placenta_samples[@]}"; do
     new_script="script_${sample}.sh"
 
