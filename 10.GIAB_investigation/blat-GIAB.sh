@@ -4,10 +4,10 @@
 #BSUB -M 50000
 #BSUB -R 'span[hosts=1] select[mem>50000] rusage[mem=50000]'
 #BSUB -q yesterday
-#BSUB -J blast
+#BSUB -J blast-giab
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/behjati/lr26/outputs/%J-duxblastgiab.out
-#BSUB -e /lustre/scratch126/casm/team274sb/behjati/lr26/errors/%J-duxblastgiab.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-duxblastgiab.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-duxblastgiab.err
 
 ### activate the conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
@@ -15,9 +15,12 @@ conda activate base
 
 ### define pathways to contigs ###
 dir="/lustre/scratch126/casm/team274sb/lr26/Dux_search"
-mom="/lustre/scratch126/casm/team274sb/lr26/PacBio-mom/mom.bp.p_ctg.fasta"
-blood="/lustre/scratch126/casm/team274sb/lr26/PacBio-blood/blood.bp.p_ctg.fasta"
-revio="/lustre/scratch126/casm/team274sb/lr26/PacBio-revio/PacBio-revio.bp.p_ctg.fasta"
+hg002="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_revio.bp.p_ctg.fasta"
+hg003="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_revio.bp.p_ctg.fasta"
+hg004="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_revio.bp.p_ctg.fasta"
+hg002_new="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_revio.bp.p_ctg.fasta"
+hg003_new="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_revio.bp.p_ctg.fasta"
+hg004_new="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_revio.bp.p_ctg.fasta"
 
 ### fasta files with regions of interest ###
 dux="/lustre/scratch126/casm/team274sb/lr26/Dux_search/dux4_intron2.fasta"
