@@ -1,39 +1,41 @@
 #!/bin/bash
+### parameters for the lsf job ###
 #BSUB -n 32
 #BSUB -M 32000
 #BSUB -R 'span [hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q long
 #BSUB -J salmon-our
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-salmon.o
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-salmon.e
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-salmon-our.o
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-salmon-our.e
 
+### activate the conda bioinfo environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate salmon
 
-### Directories to process
+### define all directoriess to process ###
+### references ###
 rna_gz="/lustre/scratch126/cellgen/behjati/lr26/T2T/GCF_009914755.1_T2T-CHM13v2.0_rna.fna.gz"
 rna="/lustre/scratch126/cellgen/behjati/lr26/T2T/refseq_transcripts.fa"
+### input, output index ###
 input_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA"
 index="/lustre/scratch126/cellgen/behjati/lr26/T2T/salmon_T2T_index_te"
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA/Salmon"
 
+### handling and indexing reference ###
 gunzip -c "$rna_gz" > "$rna"
-
-# Indexing the T2T reference genome (if index files don't exist)
 salmon index -t "$rna" -i "$index" --keepDuplicates
 
-#mkdir -p "$output_dir"
+### making the output, changing to input ###
+mkdir -p "$output_dir"
 cd "$input_dir"
-
-for r1 in *FO_R1.fastq*; do
-    # Derive the corresponding R2 file
+### handles both FT and FO samples ###
+### processing fastq or fastq.gz sequentially making sure all are paired ###
+for r1 in *F?_R1.fastq*; do
     r2="${r1/_R1.fastq/_R2.fastq}"
-    
-    # Extract sample name (handles .fastq and .fastq.gz)
+    ### extract sample name regardless of compression ###
     sample=$(basename "$r1" | sed -E 's/_R1\.fastq(.gz)?//')
-    
-    # Make sure R2 file exists
+    ### check if R2 is there and then run salmon quant ###
     if [[ -f "$r2" ]]; then
         salmon quant \
           -i "$index" \
@@ -44,6 +46,7 @@ for r1 in *FO_R1.fastq*; do
           --validateMappings \
           -o "$output_dir/quant_te${sample}"
     else
+        ### error handling ###
         echo "WARNING: No R2 file found for $r1. Skipping..."
     fi
 done
