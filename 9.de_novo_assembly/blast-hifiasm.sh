@@ -6,8 +6,8 @@
 #BSUB -q yesterday
 #BSUB -J blast
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-duxblastgiab.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-duxblastgiab.err
+#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-duxblast.out
+#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-duxblast.err
 
 ### activate the conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
