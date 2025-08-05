@@ -1,30 +1,29 @@
 #!/bin/bash
+### parameters for the LSF job ###
 #BSUB -n 64
-#BSUB -M 500000
-#BSUB -R 'span[hosts=1] select[mem>500000] rusage[mem=500000]'
+#BSUB -M 200000
+#BSUB -R 'span[hosts=1] select[mem>200000] rusage[mem=200000]'
 #BSUB -q hugemem
-#BSUB -J hifitum
+#BSUB -J hg002comb
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/hg002new.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/hg002new.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-hg002-comb.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-hg002-comb.err
 
-### Activate conda environment
+### activate the hifiasm conda environment ###
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate hifiasm-env
 
 # Define directories
-input_fasta="/lustre/scratch126/casm/team274sb/lr26/pbmm2-giab-revio/combined_HG002.fasta"
-output_dir="/lustre/scratch126/casm/team274sb/lr26/pbmm2-giab-revio/HG002_new"
-tmp_dir="/lustre/scratch126/casm/team274sb/lr26/pbmm2-giab-revio/HG002_new/denovhg002"
+input_fastq="/lustre/scratch126/casm/team274sb/lr26/GIAB/combined_HG002.fastq"
+output_dir="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_combined"
+tmp_dir="/lustre/scratch126/casm/team274sb/lr26/GIAB/HG002_combined/hg002"
 
-# Create temporary directory
+### create the output and temporary directory, export the temporary directory ####
 mkdir -p "$output_dir"
 mkdir -p "$tmp_dir"
-cd "$output_dir"
 export TMPDIR="$tmp_dir"
 
-# Run Flye with reduced memory & threads
-hifiasm -o "$output_dir" -t64 "$input_fasta"
-
-echo "Flye assembly process has started. Check logs in $output_dir"
-
+### run hifiasm ###
+hifiasm -o "$output_dir" -t64 "$input_fastq"
+### note that assembly is running ###
+echo "Assembly process has started. Check logs in $output_dir"
