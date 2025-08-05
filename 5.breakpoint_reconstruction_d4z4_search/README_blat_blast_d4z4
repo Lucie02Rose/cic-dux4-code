@@ -1,1 +1,14 @@
-This directory contains information relating to the breakpoint reconstruction. Note that the 
+This directory contains information relating to the breakpoint reconstruction. 
+Note that all directories are under the initial setup, casm/team274sb.
+The process of extracting sequences for blat and blast starts in the pysam_sequence_blatting.ipynb script 
+where soft clipped sequences from coordinates of interest are extracted using multiple functions
+into a separata fasta folder containing fasta files per sequence with their read IDs. Then, there are blat and blast .sh 
+scripts for the different tumor breakpoints of interest on chromosomes 1, 19 and 10 involved in the rearrangement. 
+For chromosome 19, there are both a blat and blast script which are used further downstream the pysam Python script 
+to assign breakpoints. For other chromosomes, the scripts are mostly illustrative. 
+
+The pysam script also contains the extraction of soft clipped reads from the RNA sample which was processed analogously using
+blat. 
+
+Furthermore, there is a script for the pairwise D4Z4 sequance search by BLAST using the T2T reference. Downstream processing and
+heatmap construction are included in the pysam_sequence_blatting.ipynb as well. 
