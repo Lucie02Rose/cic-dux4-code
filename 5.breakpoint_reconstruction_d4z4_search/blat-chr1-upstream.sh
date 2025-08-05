@@ -27,7 +27,6 @@ OUTPUT_FILE="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-new/bl
 ### set up a temporary directory for sorting ###
 TEMP_DIR="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-new/temp-chr1-up" 
 
-
 ### make the temporary directory ###
 mkdir -p "$TEMP_DIR"
 ### make the ouput file header depending on the blat programme specifications ###
