@@ -19,7 +19,7 @@ conda activate base
 reference="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.mmi"
 blood_dir="/lustre/scratch126/cellgen/behjati/lr26/PacBio-blood"
 ### all samples start with this name ###
-samples=("PacBio-mom")
+samples=("PacBio-blood")
 ### change to that directory ###
 cd "$blood_dir"
 ### there are no fasta outputs compared to flye so a conversion is needed (very lightweight) ###
