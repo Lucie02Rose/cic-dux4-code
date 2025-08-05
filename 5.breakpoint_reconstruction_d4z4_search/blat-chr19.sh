@@ -4,10 +4,10 @@
 #BSUB -M 100000
 #BSUB -R 'span[hosts=1] select[mem>100000] rusage[mem=100000]'
 #BSUB -q long
-#BSUB -J blast
+#BSUB -J blat-cic
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/%J.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-cic-blat.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-cic-blat.err
 
 ### this is the core script for the BLAT seach of the breakpoints of interest around the CIC region ###
 ### prior to this script, I have used functions in the pysam_sequence_blatting.ipynb to extract the soft clips from all breakpoints and turn them into fastas ###
