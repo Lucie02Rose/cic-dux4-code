@@ -3,36 +3,42 @@
 #BSUB -M 64000
 #BSUB -R 'span[hosts=1] select[mem>64000] rusage[mem=64000]'
 #BSUB -q yesterday
-#BSUB -J hifi
+#BSUB -J giab-alignment
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-hifi-giab.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-hifi-giab.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-hifi-giab.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-hifi-giab.err
 
 ### Activate conda environment
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
-reference="/nfs/users/nfs_l/lr26/nextflow_pipeline/reference/T2T/chm13v2.0.mmi"
-samples=("PacBio-denovo")
-
-# Loop over samples
+reference="/lustre/scratch126/casm/team274sb/lr26/T2T/chm13v2.0.mmi"
+giab="/lustre/scratch126/casm/team274sb/lr26/GIAB"
+samples=("HG002_revio" "HG003_revio" "HG004_revio" "HG002_combined" "HG003_combined" "HG004_combined")
+### there is a chance that all the files are in the base directory "/lustre/scratch126/cellgen/behjati/lr26/GIAB" ###
+### in that case all the sample names start with that was defined in output directories ###
+### change to that directory ###
+cd "$giab"
+### there are no fasta outputs compared to flye so a conversion is needed (very lightweight) ###
+for file in *.p_ctg.gfa; do
+    awk '/^S/{print ">"$2;print $3}' "$file" > "${file%.gfa}.fasta"
+done
+### then loop over all the converted samples ###
+### the base_dir will also be the output and there will be a temporary directory created and exported for sorting ###
 for sample in "${samples[@]}"; do
-    base_dir="/lustre/scratch126/cellgen/behjati/lr26/"
+    base_dir="/lustre/scratch126/casm/team274sb/lr26/GIAB"
     output_dir="$base_dir"
     tmp_dir="$output_dir/tmp"
     mkdir -p "$tmp_dir"
-    export TMPDIR="$tmp_dir"
-
-    # Find matching p_ctg FASTA files, excluding noseq and utg
-    find "$base_dir" -maxdepth 1 -type f -name "${sample}_new.bp*.p_ctg.fasta" ! -name "*noseq*" ! -name "*utg*" | while read -r fasta; do
-        # Extract filename without path
+    export TMPDIR="$tmp_dir" 
+    ### the only fasta files that I am interested in aligning are the bp and p_ctg.fasta files, not unitigs nor noseq files
+    find "$base_dir" -maxdepth 1 -type f -name "${sample}.bp*.p_ctg.fasta" ! -name "*noseq*" ! -name "*utg*" | while read -r fasta; do
+        ### all these regardless of hap1 hap2 or overall will have the filename extracted ###
         filename=$(basename "$fasta")
-        
-        # Build output BAM name
+        ### and a new bam file name created ###
         outname="${filename%.fasta}_vs_t2t"
         bam_out="${output_dir}/${outname}.bam"
-   
-        # Launch minimap2 in the background, using 16 cores
+        ### multithreaded minimap which takes each file, aligns it and directly sorts and indexes it ###
         echo "Processing $filename"
         (   
             minimap2 -t 16 -ax asm5 "$reference" "$fasta" | \
@@ -41,10 +47,7 @@ for sample in "${samples[@]}"; do
             samtools index "$bam_out"
         ) &
     done
-
-    # Wait for all background jobs to finish before continuing
+    ### in a for loop so done for each file of interest ###
+    ### wait for all jobs to finish before done ###
     wait
 done
-
-
-
