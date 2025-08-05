@@ -9,18 +9,17 @@
 #BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-fastqc.o
 #BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-fastqc.e
 
-### Activate conda environment
-source /software/cellgen/team274/lr26/miniforge3/bin/
-activate base
+### activate the base conda environment ###
+source /software/cellgen/team274/lr26/miniforge3/bin/activate
+conda activate base
 
-### Directories
+### define input and output ###
 output_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA/Fastqc"
 rna_dir="/lustre/scratch126/cellgen/behjati/lr26/RNA"
 
+### make the output directory ###
 mkdir -p "$output_dir" 
 
+### run fastqc in parallel ###
 find "$rna_dir" -name "*.fastq.gz" | \
     parallel -j 8 fastqc {} -o "$output_dir"
-
-
-
