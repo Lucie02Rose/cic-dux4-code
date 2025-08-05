@@ -10,7 +10,11 @@
 #BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/%J.err
 
 ### this is the core script for the BLAT seach of the breakpoints of interest around the CIC region ###
-### prior to this script, I have used a function in the pysam_sequence_blatting.ipynb to extract the soft clips from all breakpoints and turn them into fastas ###
+### prior to this script, I have used functions in the pysam_sequence_blatting.ipynb to extract the soft clips from all breakpoints and turn them into fastas ###
+### therefore, define the bam file and region of interest (here it is start, end = 45055000, 45160000 in the Python script)
+### then use the extract_soft_clipped_sequences and save_to_csv, then sanitize_read_id, save_to_fasta and convert_csv_to_fasta.
+### the Python script makes a fasta file for each sequence based on read id ###
+### thir script then runs a parallel blat ###
 ### do not really need the conda environment ###
 ### executable blat programme is found here ###
 BLAT_EXEC="/nfs/users/nfs_l/lr26/blat"   
