@@ -6,8 +6,8 @@
 #BSUB -q yesterday
 #BSUB -J pbmm2-hifiasm
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/casm/team274sb/lr26/output_logs/giab-fasta-concat.out
-#BSUB -e /lustre/scratch126/casm/team274sb/lr26/error_logs/giab-fasta-concat.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/giab-fasta-concat.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/giab-fasta-concat.err
 
 ### Activate conda environment
 source /software/cellgen/team274/lr26/miniforge3/bin/activate
