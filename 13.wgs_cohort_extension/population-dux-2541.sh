@@ -1,8 +1,8 @@
-# Base template
+### base of template script ###
 template_script="population-dux.sh"
 
-# List of wilms_normal samples
-wilms_1=(
+### list of all wilms normal samples ###
+wilms=(
 	"PD40713d" "PD48687b" "PD48688b" "PD48690b" "PD48691b" "PD48692b" "PD48696b"
 	"PD48699b" "PD48700b" "PD48701b" "PD48705b" "PD48706b" "PD48709b" "PD48710b"
 	"PD48712b" "PD48713b" "PD48714b" "PD48715b" "PD48717b" "PD48718b" "PD48719b"
@@ -15,13 +15,10 @@ wilms_1=(
 	"PD50663b" "PD50667b" "PD50669b" "PD50675b" "PD50678b" "PD50682b" "PD50683b"
 	"PD50686b" "PD50695b" "PD50696b" "PD50699b" "PD50707b" "PD50709b" "PD50715b"
 	"PD50716b" "PD50717b" "PD50719b" "PD50720b" "PD50724b" "PD50726b" "PD50730b"
-	"PD50733b" "PD50734b"
-)
+	"PD50733b" "PD50734b" "PD51622b" "PD52241n" "PD53640d" "PD54846m" "PD54846m")
 
-wilms_2869=("PD51622b" "PD52241n" "PD53640d" "PD54846m" "PD54846m")
-
-# Generate a new script per sample
-for sample in "${wilms_2869[@]}"; do
+### generate a new script using the sample ID for each replacing all instances of the PD54859b ###
+for sample in "${wilms[@]}"; do
     new_script="script_${sample}.sh"
 
     sed -e "s/PD54859b/${sample}/g" \
