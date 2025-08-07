@@ -16,7 +16,7 @@ export PATH=$PATH:/nfs/users/nfs_l/lr26/ensembl-vep
 ### input, vep and reference ###
 vep="/nfs/users/nfs_l/lr26/ensembl-vep"
 reference="/lustre/scratch126/casm/team274sb/lr26/hg38/hg38.fa"
-input_vcf="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/isec1/0000.vcf"
+input_vcf="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/isec1/0000.vcf.gz"
 ### files to annotate with ###
 dbsnp="/lustre/scratch126/casm/team274sb/lr26/hg38/Homo_sapiens_assembly38.dbsnp138.vcf.gz"
 gff="/lustre/scratch126/casm/team274sb/lr26/hg38/gencode.sorted.gff3.gz"
@@ -36,6 +36,6 @@ vep \
   --assembly GRCh38 \
   --custom "$clinvar",ClinVar,vcf,overlap,0,CLNSIG \
   --custom "$dbsnp",dbSNP,vcf,exact,0,ID \
-  --o "$output_dir/tumor_vep_annotated_with_clinvar_and_dbsnp_vcf_new_somatic_hg38.vcf" \
+  --o "$output_dir/tumor_vep_annotated_with_clinvar_and_dbsnp_vcf_new_somatic_hg38.vcf.gz" \
   --vcf \
   --force_overwrite
