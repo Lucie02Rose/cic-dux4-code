@@ -20,8 +20,8 @@ mom="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-mom-hg38/mom_outp
 blood="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-blood-hg38/blood_output.vcf.gz"
 tumor="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/tumor_output.vcf.gz"
 dir="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38"
-somatic_tumor="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/isec_tumor_cosmic_somatic/0000.vcf"
-
+somatic_tumor="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/isec_tumor_cosmic_somatic/0000.vcf.gz"
+somatic_tumor_ann="/lustre/scratch126/casm/team274sb/lr26/PacBio-deepvariant-tumor-hg38/annotated_tumor_somatic_cosmic_new38.vcf.gz"
 ### change to the tumor directory ###
 cd "$dir"
 
@@ -44,7 +44,7 @@ bcftools isec -p isec_tumor_cosmic_somatic -n=2 normalized_blood_output.vcf.gz n
 bcftools annotate \
     -a "$cosmic" \
     -c CHROM,POS,INFO \
-    -o annotated_tumor_somatic_cosmic_new38.vcf.gz \
+    -o "$somatic_tumor_ann" \
     -O z \
     "$somatic_tumor"
 
