@@ -1,64 +1,72 @@
 #!/bin/bash
+### parameters for the lsf job ###
 #BSUB -n 16
 #BSUB -M 32000
 #BSUB -R 'span[hosts=1] select[mem>32000] rusage[mem=32000]'
 #BSUB -q normal
 #BSUB -J blast
 #BSUB -G team274
-#BSUB -o /lustre/scratch126/cellgen/behjati/lr26/outputs/%J-blast-t2t.out
-#BSUB -e /lustre/scratch126/cellgen/behjati/lr26/errors/%J-blast-t2t.err
+#BSUB -o /lustre/scratch126/casm/team274sb/lr26/outputs/%J-blast-t2t.out
+#BSUB -e /lustre/scratch126/casm/team274sb/lr26/errors/%J-blast-t2t.err
+
+### failure management ###
 set -euo pipefail
 
-cd /lustre/scratch126/cellgen/behjati/lr26/T2T/
+### paths and variables ###
+### consensus, reference, database ###
+d4z4="/lustre/scratch126/casm/team274sb/lr26/T2T/d4z4.fasta"  ### found here in the 6.d4z4_structural_protein folder           
+reference="/lustre/scratch126/casm/team274sb/lr26/T2T/chm13v2.0.fa"                         
+database="target_genome_db"    
 
-# === Configurable paths ===
-QUERY="/lustre/scratch126/cellgen/behjati/lr26/T2T/d4z4.fasta"                  # D4Z4 consensus sequence
-TARGET_GENOME="/lustre/scratch126/cellgen/behjati/lr26/T2T/chm13v2.0.fa"                             # Reference or assembly
-DB_PREFIX="target_genome_db"                             # Temporary BLAST DB name
-THREADS=8
-PIDENTITY_THRESHOLD=85
-QCOV_THRESHOLD=95
+### outputs ###
+blast_output="/lustre/scratch126/casm/team274sb/lr26/T2T/d4z4_matches.tsv"
+filtered_d4z4s="/lustre/scratch126/casm/team274sb/lr26/T2T/d4z4_confident.tsv"
+d4z4_regions="/lustre/scratch126/casm/team274sb/lr26/T2T/d4z4_regions.txt"
+extracted_fastas="/lustre/scratch126/casm/team274sb/lr26/T2T/extracted_d4z4s.fasta"
+d4z4_db="d4z4_sequences_db"
+output_tsv="/lustre/scratch126/casm/team274sb/lr26/T2T/d4z4_sequences_all_vs_all.tsv"
 
-# === Output files ===
-BLAST_OUTPUT="/lustre/scratch126/cellgen/behjati/lr26/T2T/d4z4_matches.tsv"
-FILTERED_HITS="/lustre/scratch126/cellgen/behjati/lr26/T2T/d4z4_confident.tsv"
-REGIONS_BED="/lustre/scratch126/cellgen/behjati/lr26/T2T/d4z4_regions.txt"
-EXTRACTED_FASTA="/lustre/scratch126/cellgen/behjati/lr26/T2T/extracted_d4z4s.fasta"
-D4Z4_DB="d4z4_sequences_db"
-ALL_VS_ALL_OUT="/lustre/scratch126/cellgen/behjati/lr26/T2T/d4z4_sequences_all_vs_all.tsv"
+### change to the correct directory ###
+cd /lustre/scratch126/casm/team274sb/lr26/T2T/
 
-echo "Step 1: Create BLAST DB from genome..."
-makeblastdb -in "$TARGET_GENOME" -dbtype nucl -out "$DB_PREFIX"
+### make blast database from genome ###
+echo "make db from genome"
+makeblastdb -in "$reference" -dbtype nucl -out "$database"
 
-echo "Step 2: Run BLAST to find D4Z4 matches..."
-blastn -query "$QUERY" -db "$DB_PREFIX" \
-    -out "$BLAST_OUTPUT" \
+### make blast database from genome ###
+echo "run blast of d4z4 against the genome"
+blastn -query "$d4z4" -db "$database" \
+    -out "$blast_output" \
     -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" \
-    -num_threads "$THREADS" \
-    -perc_identity "$PIDENTITY_THRESHOLD" \
+    -num_threads 8 \
+    -perc_identity 85 \
     -task blastn \
     -strand both
 
-echo "Step 3: Filter BLAST hits for full coverage (>=95%) and identity (>=85%)..."
-# Get query length
-QLEN=$(grep -v "^>" "$QUERY" | tr -d '\n' | wc -c)
-awk -v qlen="$QLEN" '$3 >= 85 && $4 >= (0.95 * qlen)' "$BLAST_OUTPUT" > "$FILTERED_HITS"
+### get query length and filter based on coverage and identity ###
+echo "filter blasts for full coverage (95%) and identity (85%)"
+QLEN=$(grep -v "^>" "$d4z4" | tr -d '\n' | wc -c)
+awk -v qlen="$QLEN" '$3 >= 85 && $4 >= (0.95 * qlen)' "$blast_output" > "$filtered_d4z4s"
 
-echo "Step 4: Extract coordinates for confident hits..."
-awk '{if ($9 < $10) print $2 ":" $9 "-" $10; else print $2 ":" $10 "-" $9}' "$FILTERED_HITS" > "$REGIONS_BED"
+### extract the coodinates for confident sequences ###
+echo "extract coordinates for confident hits"
+awk '{if ($9 < $10) print $2 ":" $9 "-" $10; else print $2 ":" $10 "-" $9}' "$filtered_d4z4s" > "$d4z4_regions"
 
-echo "Step 5: Extract D4Z4 sequences from genome..."
-xargs samtools faidx "$TARGET_GENOME" < "$REGIONS_BED" > "$EXTRACTED_FASTA"
+### extract those regions into corresponding fastas ###
+echo "extract D4Z4 sequences from genome"
+xargs samtools faidx "$reference" < "$d4z4_regions" > "$extracted_fastas"
 
-echo "Step 6: Build BLAST DB of extracted D4Z4 sequences..."
-makeblastdb -in "$EXTRACTED_FASTA" -dbtype nucl -out "$D4Z4_DB"
+### build a blast database of the extracted d4z4s ###
+echo "blast db of extracted sequences"
+makeblastdb -in "$extracted_fastas" -dbtype nucl -out "$d4z4_db"
 
-echo "Step 7: Run all-vs-all BLAST..."
-blastn -query "$EXTRACTED_FASTA" -db "$D4Z4_DB" \
-    -out "$ALL_VS_ALL_OUT" \
+### run an all-by-all blast making sure that even the low hits kept ###
+echo "all-vs-all blast"
+blastn -query "$extracted_fastas" -db "$d4z4_db" \
+    -out "$output_tsv" \
     -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" \
     -evalue 10 \
-    -num_threads "$THREADS" \
+    -num_threads 8 \
     -dust no \
     -soft_masking false \
     -ungapped \
@@ -67,7 +75,5 @@ blastn -query "$EXTRACTED_FASTA" -db "$D4Z4_DB" \
     -task blastn \
     -strand both
 
-echo "✅ Pipeline complete. Output:"
-echo "- Filtered hits: $FILTERED_HITS"
-echo "- Extracted D4Z4s: $EXTRACTED_FASTA"
-echo "- All-vs-all BLAST: $ALL_VS_ALL_OUT"
+### print statement - completed ###
+echo "completed"
