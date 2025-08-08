@@ -21,11 +21,11 @@ BLAT_EXEC="/nfs/users/nfs_l/lr26/blat"
 ### genome reference ###
 GENOME_FILE="/lustre/scratch126/casm/team274sb/lr26/T2T/chm13v2.0.fa"  
 ### fasta files of soft clipped reads ###
-FASTA_DIR="/lustre/scratch126/casm/team274sb/lr26/bulk-rna-t2t/fasta-rna/"
+FASTA_DIR="/lustre/scratch126/casm/team274sb/lr26/RNA/fasta-rna/"
 ### top 5 blat hits per soft clipped read ###
-OUTPUT_FILE="/lustre/scratch126/casm/team274sb/lr26/bulk-rna-t2t/blat_top2-rna-parallel.csv"
+OUTPUT_FILE="/lustre/scratch126/casm/team274sb/lr26/RNA/blat_top2-rna-parallel.csv"
 ### set up a temporary directory for sorting ###
-TEMP_DIR="/lustre/scratch126/casm/team274sb/lr26/bulk-rna-t2t/temp"
+TEMP_DIR="/lustre/scratch126/casm/team274sb/lr26/RNA/temp"
 
 ### make the temporary directory ###
 mkdir -p "$TEMP_DIR"
