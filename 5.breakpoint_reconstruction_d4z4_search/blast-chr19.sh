@@ -14,13 +14,13 @@ source /software/cellgen/team274/lr26/miniforge3/bin/activate
 conda activate base
 
 ### fasta files of soft clipped reads ###
-fasta_dir="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-new/fasta"
+fasta_dir="/lustre/scratch126/casm/team274sb/lr26/PacBio-aligned/fasta"
 ### blastn database made from the T2T reference fasta file ###
 blast_db="/lustre/scratch126/casm/team274sb/lr26/T2T/T2T_chm13_db"
 ### output directory for blast results ###
-output_dir="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-new/blast_results"
+output_dir="/lustre/scratch126/casm/team274sb/lr26/PacBio-aligned/blast_results"
 #### csv file to store all blast results ###
-csv_output="/lustre/scratch126/casm/team274sb/lr26/pbmm2-alignment-tumor-new/blast_results/all_blast_results.csv"
+csv_output="/lustre/scratch126/casm/team274sb/lr26/PacBio-aligned/blast_results/all_blast_results.csv"
 
 ### create the output directory ###
 mkdir -p "$output_dir"
